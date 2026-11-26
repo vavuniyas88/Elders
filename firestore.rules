@@ -1,0 +1,347 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 1. Global Safety Net: Deny all access by default
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // 2. Hardened Global Helpers (Primitives)
+    function isValidId(id) {
+      return id is string && id.size() >= 1 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isBootstrappedAdmin() {
+      return isSignedIn()
+        && request.auth.token.email == 'vavuniyas88@gmail.com'
+        && request.auth.token.email_verified == true;
+    }
+
+    function userDocExists() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid)).data;
+    }
+
+    function isActiveAdmin() {
+      return isBootstrappedAdmin()
+        || (userDocExists() && userDoc().role == 'admin' && userDoc().status == 'active');
+    }
+
+    function isActiveStaff() {
+      return isBootstrappedAdmin()
+        || (userDocExists() && userDoc().status == 'active' && userDoc().role in ['admin', 'user']);
+    }
+
+    // 3. Entity Validation Blueprints
+    function isValidUser(data) {
+      return data.keys().hasAll([
+          'uid', 'username', 'email', 'fullName', 'designation',
+          'phone', 'role', 'status', 'createdBy', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'uid', 'username', 'email', 'fullName', 'designation',
+          'phone', 'role', 'status', 'createdBy', 'createdAt', 'updatedAt'
+        ])
+        && data.uid is string && data.uid.size() >= 1 && data.uid.size() <= 128
+        && data.username is string && data.username.size() >= 2 && data.username.size() <= 64
+        && data.username.matches('^[a-zA-Z0-9._-]+$')
+        && data.email is string && data.email.size() >= 3 && data.email.size() <= 150
+        && data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 120
+        && data.designation is string && data.designation.size() <= 100
+        && data.phone is string && data.phone.size() <= 20
+        && data.role in ['admin', 'user']
+        && data.status in ['active', 'inactive']
+        && data.createdBy is string && data.createdBy.size() >= 1 && data.createdBy.size() <= 128
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidGnDivision(data) {
+      return data.keys().hasAll([
+          'id', 'code', 'nameEn', 'nameTa', 'gnOfficerName',
+          'gnOfficerPhone', 'isActive', 'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'code', 'nameEn', 'nameTa', 'gnOfficerName',
+          'gnOfficerPhone', 'isActive', 'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.code is string && data.code.size() >= 1 && data.code.size() <= 30
+        && data.nameEn is string && data.nameEn.size() >= 2 && data.nameEn.size() <= 100
+        && data.nameTa is string && data.nameTa.size() >= 1 && data.nameTa.size() <= 120
+        && data.gnOfficerName is string && data.gnOfficerName.size() <= 120
+        && data.gnOfficerPhone is string && data.gnOfficerPhone.size() <= 20
+        && data.isActive is bool
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidElderlyCitizen(data) {
+      return data.keys().hasAll([
+          'id', 'fullName', 'dateOfBirth', 'nicNumber', 'gender', 'telephone',
+          'gnDivisionId', 'gnDivisionName', 'address', 'welfareRegNumber',
+          'receivingAllowance', 'paymentMethod', 'bankName', 'bankBranch',
+          'bankAccountNumber', 'postOfficeName', 'allowanceStatus', 'remarks',
+          'createdByUid', 'createdByName', 'updatedByUid', 'updatedByName',
+          'createdAt', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'id', 'fullName', 'dateOfBirth', 'nicNumber', 'gender', 'telephone',
+          'gnDivisionId', 'gnDivisionName', 'address', 'welfareRegNumber',
+          'receivingAllowance', 'paymentMethod', 'bankName', 'bankBranch',
+          'bankAccountNumber', 'postOfficeName', 'allowanceStatus', 'remarks',
+          'createdByUid', 'createdByName', 'updatedByUid', 'updatedByName',
+          'createdAt', 'updatedAt'
+        ])
+        && isValidId(data.id)
+        && data.fullName is string && data.fullName.size() >= 2 && data.fullName.size() <= 150
+        && data.dateOfBirth is string && data.dateOfBirth.size() == 10
+        && data.dateOfBirth.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.nicNumber is string && data.nicNumber.size() >= 10 && data.nicNumber.size() <= 12
+        && data.nicNumber.matches('^([0-9]{9}[VX]|[0-9]{12})$')
+        && data.gender in ['Male', 'Female']
+        && data.telephone is string && data.telephone.size() >= 7 && data.telephone.size() <= 20
+        && isValidId(data.gnDivisionId)
+        && data.gnDivisionName is string && data.gnDivisionName.size() >= 1 && data.gnDivisionName.size() <= 120
+        && data.address is string && data.address.size() >= 3 && data.address.size() <= 300
+        && data.welfareRegNumber is string && data.welfareRegNumber.size() <= 60
+        && data.receivingAllowance is bool
+        && data.paymentMethod in ['None', 'Bank', 'Post Office']
+        && data.bankName is string && data.bankName.size() <= 100
+        && data.bankBranch is string && data.bankBranch.size() <= 100
+        && data.bankAccountNumber is string && data.bankAccountNumber.size() <= 40
+        && data.postOfficeName is string && data.postOfficeName.size() <= 100
+        && data.allowanceStatus in ['Not Applicable', 'Active', 'Suspended', 'Pending', 'Other']
+        && data.remarks is string && data.remarks.size() <= 500
+        && (
+          (data.receivingAllowance == false
+            && data.paymentMethod == 'None'
+            && data.allowanceStatus == 'Not Applicable'
+            && data.bankName == ''
+            && data.bankBranch == ''
+            && data.bankAccountNumber == ''
+            && data.postOfficeName == '')
+          ||
+          (data.receivingAllowance == true
+            && data.paymentMethod in ['Bank', 'Post Office']
+            && data.allowanceStatus in ['Active', 'Suspended', 'Pending', 'Other'])
+        )
+        && data.createdByUid is string && data.createdByUid.size() >= 1 && data.createdByUid.size() <= 128
+        && data.createdByName is string && data.createdByName.size() >= 1 && data.createdByName.size() <= 120
+        && data.updatedByUid is string && data.updatedByUid.size() >= 1 && data.updatedByUid.size() <= 128
+        && data.updatedByName is string && data.updatedByName.size() >= 1 && data.updatedByName.size() <= 120
+        && data.createdAt is timestamp
+        && data.updatedAt is timestamp;
+    }
+
+    function isValidNicIndex(data) {
+      return data.keys().hasAll(['nicNumber', 'citizenId', 'createdByUid', 'createdAt'])
+        && data.keys().hasOnly(['nicNumber', 'citizenId', 'createdByUid', 'createdAt'])
+        && data.nicNumber is string && data.nicNumber.size() >= 10 && data.nicNumber.size() <= 12
+        && data.nicNumber.matches('^([0-9]{9}[VX]|[0-9]{12})$')
+        && isValidId(data.citizenId)
+        && data.createdByUid is string && data.createdByUid.size() >= 1 && data.createdByUid.size() <= 128
+        && data.createdAt is timestamp;
+    }
+
+    function isValidAuditLog(data) {
+      return data.keys().hasAll([
+          'id', 'action', 'entityType', 'entityId', 'summary',
+          'performedByUid', 'performedByName', 'performedByRole', 'timestamp'
+        ])
+        && data.keys().hasOnly([
+          'id', 'action', 'entityType', 'entityId', 'summary',
+          'performedByUid', 'performedByName', 'performedByRole', 'timestamp'
+        ])
+        && isValidId(data.id)
+        && data.action in [
+          'CREATE_CITIZEN', 'UPDATE_CITIZEN', 'DELETE_CITIZEN',
+          'CREATE_USER', 'UPDATE_USER', 'DELETE_USER',
+          'CREATE_DIVISION', 'UPDATE_DIVISION', 'DELETE_DIVISION',
+          'BACKUP_DATA', 'RESTORE_DATA', 'SYNC_STATS'
+        ]
+        && data.entityType in ['elderly_citizen', 'user', 'gn_division', 'system']
+        && data.entityId is string && data.entityId.size() >= 1 && data.entityId.size() <= 128
+        && data.summary is string && data.summary.size() >= 2 && data.summary.size() <= 300
+        && data.performedByUid is string && data.performedByUid.size() >= 1 && data.performedByUid.size() <= 128
+        && data.performedByName is string && data.performedByName.size() >= 1 && data.performedByName.size() <= 120
+        && data.performedByRole in ['admin', 'user']
+        && data.timestamp is timestamp;
+    }
+
+    function isValidPublicStats(data) {
+      return data.keys().hasAll([
+          'totalRegistered', 'aged60Plus', 'aged60To69', 'aged70Plus',
+          'receivingAllowance', 'notReceivingAllowance', 'bankRecipients',
+          'postOfficeRecipients', 'maleCount', 'femaleCount',
+          'allowanceStatusCounts', 'gnDivisionStats', 'statsDate', 'updatedAt'
+        ])
+        && data.keys().hasOnly([
+          'totalRegistered', 'aged60Plus', 'aged60To69', 'aged70Plus',
+          'receivingAllowance', 'notReceivingAllowance', 'bankRecipients',
+          'postOfficeRecipients', 'maleCount', 'femaleCount',
+          'allowanceStatusCounts', 'gnDivisionStats', 'statsDate', 'updatedAt'
+        ])
+        && data.totalRegistered is int && data.totalRegistered >= 0
+        && data.aged60Plus is int && data.aged60Plus >= 0
+        && data.aged60To69 is int && data.aged60To69 >= 0
+        && data.aged70Plus is int && data.aged70Plus >= 0
+        && data.receivingAllowance is int && data.receivingAllowance >= 0
+        && data.notReceivingAllowance is int && data.notReceivingAllowance >= 0
+        && data.bankRecipients is int && data.bankRecipients >= 0
+        && data.postOfficeRecipients is int && data.postOfficeRecipients >= 0
+        && data.maleCount is int && data.maleCount >= 0
+        && data.femaleCount is int && data.femaleCount >= 0
+        && data.allowanceStatusCounts is map
+        && data.allowanceStatusCounts.keys().hasOnly(['Active', 'Suspended', 'Pending', 'Other', 'Not Applicable'])
+        && data.gnDivisionStats is list && data.gnDivisionStats.size() <= 100
+        && (data.gnDivisionStats.size() == 0 || data.gnDivisionStats[0] is map)
+        && data.statsDate is string && data.statsDate.size() == 10
+        && data.statsDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')
+        && data.updatedAt is timestamp;
+    }
+
+    // 4. Collection Match Blocks
+    match /users/{userId} {
+      allow get: if isValidId(userId) && (isActiveAdmin() || (isSignedIn() && request.auth.uid == userId));
+      allow list: if isActiveAdmin();
+      allow create: if isSignedIn()
+        && isValidId(userId)
+        && isValidUser(incoming())
+        && incoming().uid == userId
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && (
+          isActiveAdmin()
+          || (isBootstrappedAdmin() && request.auth.uid == userId && incoming().role == 'admin' && incoming().status == 'active')
+          || (request.auth.uid == userId && request.auth.token.email_verified == true && incoming().role == 'user' && incoming().status == 'inactive' && incoming().createdBy == request.auth.uid)
+        );
+      allow update: if isSignedIn()
+        && isValidId(userId)
+        && isValidUser(incoming())
+        && incoming().uid == existing().uid
+        && incoming().createdAt == existing().createdAt
+        && incoming().createdBy == existing().createdBy
+        && incoming().updatedAt == request.time
+        && (
+          isActiveAdmin()
+          || (
+            request.auth.uid == userId
+            && incoming().diff(existing()).affectedKeys().hasOnly(['fullName', 'phone', 'designation', 'updatedAt'])
+            && incoming().role == existing().role
+            && incoming().status == existing().status
+          )
+        );
+      allow delete: if isValidId(userId) && isActiveAdmin() && request.auth.uid != userId;
+    }
+
+    match /gn_divisions/{divisionId} {
+      allow get: if isValidId(divisionId) && isActiveStaff();
+      allow list: if isActiveStaff();
+      allow create: if isActiveAdmin()
+        && isValidId(divisionId)
+        && isValidGnDivision(incoming())
+        && incoming().id == divisionId
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time;
+      allow update: if isActiveAdmin()
+        && isValidId(divisionId)
+        && isValidGnDivision(incoming())
+        && incoming().id == existing().id
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'code', 'nameEn', 'nameTa', 'gnOfficerName', 'gnOfficerPhone', 'isActive', 'updatedAt'
+        ]);
+      allow delete: if isValidId(divisionId) && isActiveAdmin();
+    }
+
+    match /elderly_citizens/{citizenId} {
+      allow get: if isValidId(citizenId) && isActiveStaff();
+      allow list: if isActiveStaff();
+      allow create: if isActiveStaff()
+        && isValidId(citizenId)
+        && isValidElderlyCitizen(incoming())
+        && incoming().id == citizenId
+        && incoming().createdByUid == request.auth.uid
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && incoming().updatedAt == request.time
+        && existsAfter(/databases/$(database)/documents/gn_divisions/$(incoming().gnDivisionId));
+      allow update: if isActiveAdmin()
+        && isValidId(citizenId)
+        && isValidElderlyCitizen(incoming())
+        && incoming().id == existing().id
+        && incoming().createdByUid == existing().createdByUid
+        && incoming().createdByName == existing().createdByName
+        && incoming().createdAt == existing().createdAt
+        && incoming().updatedByUid == request.auth.uid
+        && incoming().updatedAt == request.time
+        && incoming().diff(existing()).affectedKeys().hasOnly([
+          'fullName', 'dateOfBirth', 'nicNumber', 'gender', 'telephone',
+          'gnDivisionId', 'gnDivisionName', 'address', 'welfareRegNumber',
+          'receivingAllowance', 'paymentMethod', 'bankName', 'bankBranch',
+          'bankAccountNumber', 'postOfficeName', 'allowanceStatus', 'remarks',
+          'updatedByUid', 'updatedByName', 'updatedAt'
+        ])
+        && existsAfter(/databases/$(database)/documents/gn_divisions/$(incoming().gnDivisionId));
+      allow delete: if isValidId(citizenId) && isActiveAdmin();
+    }
+
+    match /nic_index/{nicNumber} {
+      allow get: if isValidId(nicNumber) && isActiveStaff();
+      allow list: if isActiveAdmin();
+      allow create: if isActiveStaff()
+        && isValidId(nicNumber)
+        && isValidNicIndex(incoming())
+        && incoming().nicNumber == nicNumber
+        && incoming().createdByUid == request.auth.uid
+        && incoming().createdAt == request.time
+        && !exists(/databases/$(database)/documents/nic_index/$(nicNumber))
+        && existsAfter(/databases/$(database)/documents/elderly_citizens/$(incoming().citizenId));
+      allow update: if false;
+      allow delete: if isValidId(nicNumber) && isActiveAdmin();
+    }
+
+    match /audit_logs/{logId} {
+      allow get: if isValidId(logId) && isActiveAdmin();
+      allow list: if isActiveAdmin();
+      allow create: if isActiveStaff()
+        && isValidId(logId)
+        && isValidAuditLog(incoming())
+        && incoming().id == logId
+        && incoming().performedByUid == request.auth.uid
+        && incoming().timestamp == request.time;
+      allow update: if false;
+      allow delete: if false;
+    }
+
+    match /public_stats/{statId} {
+      allow get: if statId == 'summary';
+      allow list: if false;
+      allow create, update: if statId == 'summary'
+        && isActiveStaff()
+        && isValidPublicStats(incoming())
+        && incoming().updatedAt == request.time;
+      allow delete: if false;
+    }
+  }
+}

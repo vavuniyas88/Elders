@@ -1,0 +1,6 @@
+{
+  "name": "Manthai West Elderly Citizen Management System",
+  "description": "Elderly Citizen Management System for Manthai West Divisional Secretariat, Sri Lanka — manage registrations, welfare allowances, GN divisions, reports, and public statistics.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

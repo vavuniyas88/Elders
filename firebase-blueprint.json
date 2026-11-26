@@ -1,0 +1,161 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "Authorized staff user profile and role-based access control record.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "username": { "type": "string", "minLength": 2, "maxLength": 64, "pattern": "^[a-zA-Z0-9._-]+$" },
+        "email": { "type": "string", "minLength": 3, "maxLength": 150 },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 120 },
+        "designation": { "type": "string", "maxLength": 100 },
+        "phone": { "type": "string", "maxLength": 20 },
+        "role": { "type": "string", "enum": ["admin", "user"] },
+        "status": { "type": "string", "enum": ["active", "inactive"] },
+        "createdBy": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "username", "email", "fullName", "designation", "phone", "role", "status", "createdBy", "createdAt", "updatedAt"]
+    },
+    "GnDivision": {
+      "title": "GnDivision",
+      "description": "Grama Niladhari Division within Manthai West Divisional Secretariat.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "code": { "type": "string", "minLength": 1, "maxLength": 30 },
+        "nameEn": { "type": "string", "minLength": 2, "maxLength": 100 },
+        "nameTa": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "gnOfficerName": { "type": "string", "maxLength": 120 },
+        "gnOfficerPhone": { "type": "string", "maxLength": 20 },
+        "isActive": { "type": "boolean" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "code", "nameEn", "nameTa", "gnOfficerName", "gnOfficerPhone", "isActive", "createdAt", "updatedAt"]
+    },
+    "ElderlyCitizen": {
+      "title": "ElderlyCitizen",
+      "description": "Registered elderly citizen record with personal, GN division, and welfare allowance payment details.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "fullName": { "type": "string", "minLength": 2, "maxLength": 150 },
+        "dateOfBirth": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "nicNumber": { "type": "string", "minLength": 10, "maxLength": 12, "pattern": "^([0-9]{9}[VX]|[0-9]{12})$" },
+        "gender": { "type": "string", "enum": ["Male", "Female"] },
+        "telephone": { "type": "string", "minLength": 7, "maxLength": 20 },
+        "gnDivisionId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "gnDivisionName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "address": { "type": "string", "minLength": 3, "maxLength": 300 },
+        "welfareRegNumber": { "type": "string", "maxLength": 60 },
+        "receivingAllowance": { "type": "boolean" },
+        "paymentMethod": { "type": "string", "enum": ["None", "Bank", "Post Office"] },
+        "bankName": { "type": "string", "maxLength": 100 },
+        "bankBranch": { "type": "string", "maxLength": 100 },
+        "bankAccountNumber": { "type": "string", "maxLength": 40 },
+        "postOfficeName": { "type": "string", "maxLength": 100 },
+        "allowanceStatus": { "type": "string", "enum": ["Not Applicable", "Active", "Suspended", "Pending", "Other"] },
+        "remarks": { "type": "string", "maxLength": 500 },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdByName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "updatedByUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "updatedByName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "id", "fullName", "dateOfBirth", "nicNumber", "gender", "telephone",
+        "gnDivisionId", "gnDivisionName", "address", "welfareRegNumber",
+        "receivingAllowance", "paymentMethod", "bankName", "bankBranch",
+        "bankAccountNumber", "postOfficeName", "allowanceStatus", "remarks",
+        "createdByUid", "createdByName", "updatedByUid", "updatedByName",
+        "createdAt", "updatedAt"
+      ]
+    },
+    "NicIndex": {
+      "title": "NicIndex",
+      "description": "Unique index preventing duplicate elderly citizen registrations by NIC number.",
+      "type": "object",
+      "properties": {
+        "nicNumber": { "type": "string", "minLength": 10, "maxLength": 12, "pattern": "^([0-9]{9}[VX]|[0-9]{12})$" },
+        "citizenId": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "createdByUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["nicNumber", "citizenId", "createdByUid", "createdAt"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Immutable append-only audit trail recording administrative and data actions.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "minLength": 1, "maxLength": 128, "pattern": "^[a-zA-Z0-9_-]+$" },
+        "action": { "type": "string", "enum": ["CREATE_CITIZEN", "UPDATE_CITIZEN", "DELETE_CITIZEN", "CREATE_USER", "UPDATE_USER", "DELETE_USER", "CREATE_DIVISION", "UPDATE_DIVISION", "DELETE_DIVISION", "BACKUP_DATA", "RESTORE_DATA", "SYNC_STATS"] },
+        "entityType": { "type": "string", "enum": ["elderly_citizen", "user", "gn_division", "system"] },
+        "entityId": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "summary": { "type": "string", "minLength": 2, "maxLength": 300 },
+        "performedByUid": { "type": "string", "minLength": 1, "maxLength": 128 },
+        "performedByName": { "type": "string", "minLength": 1, "maxLength": 120 },
+        "performedByRole": { "type": "string", "enum": ["admin", "user"] },
+        "timestamp": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "action", "entityType", "entityId", "summary", "performedByUid", "performedByName", "performedByRole", "timestamp"]
+    },
+    "PublicStats": {
+      "title": "PublicStats",
+      "description": "Anonymous aggregated statistical summary for the public dashboard with zero personal information.",
+      "type": "object",
+      "properties": {
+        "totalRegistered": { "type": "number" },
+        "aged60Plus": { "type": "number" },
+        "aged60To69": { "type": "number" },
+        "aged70Plus": { "type": "number" },
+        "receivingAllowance": { "type": "number" },
+        "notReceivingAllowance": { "type": "number" },
+        "bankRecipients": { "type": "number" },
+        "postOfficeRecipients": { "type": "number" },
+        "maleCount": { "type": "number" },
+        "femaleCount": { "type": "number" },
+        "allowanceStatusCounts": { "type": "object" },
+        "gnDivisionStats": { "type": "array" },
+        "statsDate": { "type": "string", "minLength": 10, "maxLength": 10, "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}$" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": [
+        "totalRegistered", "aged60Plus", "aged60To69", "aged70Plus",
+        "receivingAllowance", "notReceivingAllowance", "bankRecipients",
+        "postOfficeRecipients", "maleCount", "femaleCount",
+        "allowanceStatusCounts", "gnDivisionStats", "statsDate", "updatedAt"
+      ]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "Authorized staff user profiles and roles."
+    },
+    "/gn_divisions/{divisionId}": {
+      "schema": { "$ref": "#/entities/GnDivision" },
+      "description": "Grama Niladhari divisions in Manthai West DS."
+    },
+    "/elderly_citizens/{citizenId}": {
+      "schema": { "$ref": "#/entities/ElderlyCitizen" },
+      "description": "Elderly citizen personal, welfare, and payment records."
+    },
+    "/nic_index/{nicNumber}": {
+      "schema": { "$ref": "#/entities/NicIndex" },
+      "description": "NIC uniqueness enforcement registry."
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Immutable audit log of system actions."
+    },
+    "/public_stats/{statId}": {
+      "schema": { "$ref": "#/entities/PublicStats" },
+      "description": "Anonymous aggregated public statistics summary."
+    }
+  }
+}
