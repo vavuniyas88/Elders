@@ -235,24 +235,25 @@ export function CitizenFormModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px] flex items-center justify-center p-4 overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white border border-slate-200 rounded-lg w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between gap-4 shrink-0">
+      <div className="app-card rounded-lg w-full max-w-3xl max-h-[92vh] flex flex-col overflow-hidden my-auto">
+        <div className="app-crest-ribbon w-full shrink-0" />
+        <div className="px-6 py-4 border-b app-border flex items-center justify-between gap-4 shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-slate-900">
+            <h2 className="text-lg font-bold app-text">
               {editingCitizen ? t('editCitizen') : t('registerCitizen')}
             </h2>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs app-text-subtle mt-0.5">
               {t('appTitle')} · Automatic age &amp; duplicate NIC verification enabled
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-2 text-slate-400 hover:text-slate-700 rounded-md hover:bg-slate-100"
+            className="p-2 app-text-subtle hover:app-text rounded-md hover:bg-slate-100 dark:hover:bg-slate-800/60 transition-colors"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />
@@ -261,21 +262,21 @@ export function CitizenFormModal({
 
         <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto p-6 space-y-6">
           {errorMsg && (
-            <div className="p-3.5 bg-red-50 border border-red-200 rounded-md flex items-start gap-2.5 text-sm text-red-800">
-              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-600" />
+            <div className="p-3.5 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-800/60 rounded-md flex items-start gap-2.5 text-sm text-red-800 dark:text-red-200">
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-600 dark:text-red-400" />
               <span>{errorMsg}</span>
             </div>
           )}
 
           {successMsg && (
-            <div className="p-3.5 bg-emerald-50 border border-emerald-200 rounded-md flex items-start gap-2.5 text-sm text-emerald-800">
-              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600" />
+            <div className="p-3.5 bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800/60 rounded-md flex items-start gap-2.5 text-sm text-emerald-800 dark:text-emerald-200">
+              <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5 text-emerald-600 dark:text-emerald-400" />
               <span>{successMsg}</span>
             </div>
           )}
 
           {divisions.length === 0 && (
-            <div className="p-3.5 bg-amber-50 border border-amber-200 rounded-md text-sm text-amber-900">
+            <div className="p-3.5 bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-800/60 rounded-md text-sm text-amber-900 dark:text-amber-200">
               No Grama Niladhari Divisions exist yet. An Administrator must initialize or
               add GN Divisions under the <strong>GN Divisions</strong> tab first.
             </div>
@@ -283,14 +284,14 @@ export function CitizenFormModal({
 
           {/* Section 1: Personal Information */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-slate-900 pb-2 border-b border-slate-100">
+            <h3 className="text-sm font-semibold app-text pb-2 border-b app-border">
               1. {t('personalInfoSection')}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('fullName')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('fullName')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -299,13 +300,13 @@ export function CitizenFormModal({
                   value={form.fullName}
                   onChange={(e) => setForm({ ...form, fullName: e.target.value })}
                   placeholder="Enter full legal name"
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('dateOfBirth')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('dateOfBirth')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="date"
@@ -313,27 +314,27 @@ export function CitizenFormModal({
                   max={getLocalIsoDate(referenceDate)}
                   value={form.dateOfBirth}
                   onChange={(e) => setForm({ ...form, dateOfBirth: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-medium app-text-muted mb-1">
                   {t('calculatedAge')}
                 </label>
-                <div className="px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-md flex items-center justify-between">
-                  <span className="font-mono-tabular font-semibold text-slate-900">
+                <div className="px-3 py-2 text-sm app-surface-muted border app-border rounded-md flex items-center justify-between">
+                  <span className="font-mono-tabular font-semibold app-text">
                     {computedAge !== null ? `${computedAge} ${t('yearsOld')}` : '—'}
                   </span>
-                  <span className="text-xs font-medium text-blue-700">
+                  <span className="text-xs font-medium app-accent-text">
                     {t('ageCategory')}: {ageCategory}
                   </span>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('nicNumber')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('nicNumber')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -344,19 +345,19 @@ export function CitizenFormModal({
                     setForm({ ...form, nicNumber: e.target.value.toUpperCase() })
                   }
                   placeholder="521451234V or 195214501234"
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                 />
-                <p className="mt-1 text-[11px] text-slate-500">{t('nicHelper')}</p>
+                <p className="mt-1 text-[11px] app-text-subtle">{t('nicHelper')}</p>
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('gender')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('gender')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <select
                   value={form.gender}
                   onChange={(e) => setForm({ ...form, gender: e.target.value as Gender })}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md"
                 >
                   <option value="Male">{t('male')}</option>
                   <option value="Female">{t('female')}</option>
@@ -364,8 +365,8 @@ export function CitizenFormModal({
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('telephone')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('telephone')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="tel"
@@ -374,19 +375,19 @@ export function CitizenFormModal({
                   value={form.telephone}
                   onChange={(e) => setForm({ ...form, telephone: e.target.value })}
                   placeholder="0771234567"
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('gnDivision')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('gnDivision')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <select
                   required
                   value={form.gnDivisionId}
                   onChange={(e) => setForm({ ...form, gnDivisionId: e.target.value })}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md"
                 >
                   <option value="">{t('selectGnDivision')}</option>
                   {activeDivisions.map((d) => (
@@ -398,8 +399,8 @@ export function CitizenFormModal({
               </div>
 
               <div className="sm:col-span-2">
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('address')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('address')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
                 <input
                   type="text"
@@ -408,7 +409,7 @@ export function CitizenFormModal({
                   value={form.address}
                   onChange={(e) => setForm({ ...form, address: e.target.value })}
                   placeholder="Street, Village, GN Division"
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md"
                 />
               </div>
             </div>
@@ -416,13 +417,13 @@ export function CitizenFormModal({
 
           {/* Section 2: Welfare Information */}
           <div className="space-y-4">
-            <h3 className="text-sm font-semibold text-slate-900 pb-2 border-b border-slate-100">
+            <h3 className="text-sm font-semibold app-text pb-2 border-b app-border">
               2. {t('welfareInfoSection')}
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-medium app-text-muted mb-1">
                   {t('welfareRegNumber')}
                 </label>
                 <input
@@ -433,22 +434,22 @@ export function CitizenFormModal({
                     setForm({ ...form, welfareRegNumber: e.target.value })
                   }
                   placeholder="e.g. MW/WEL/2026/0012"
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                 />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
-                  {t('isReceivingAllowance')} <span className="text-red-600">*</span>
+                <label className="block text-xs font-medium app-text-muted mb-1">
+                  {t('isReceivingAllowance')} <span className="text-red-600 dark:text-red-400">*</span>
                 </label>
-                <div className="inline-flex items-center p-1 bg-slate-100 rounded-md border border-slate-200 w-full">
+                <div className="inline-flex items-center p-1 app-surface-muted rounded-md border app-border w-full">
                   <button
                     type="button"
                     onClick={() => handleToggleAllowance(true)}
                     className={`flex-1 py-1.5 text-sm font-medium rounded transition-colors ${
                       form.receivingAllowance
-                        ? 'bg-blue-700 text-white'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'app-btn-primary'
+                        : 'app-text-muted hover:app-text'
                     }`}
                   >
                     {t('yes')}
@@ -458,8 +459,8 @@ export function CitizenFormModal({
                     onClick={() => handleToggleAllowance(false)}
                     className={`flex-1 py-1.5 text-sm font-medium rounded transition-colors ${
                       !form.receivingAllowance
-                        ? 'bg-slate-800 text-white'
-                        : 'text-slate-600 hover:text-slate-900'
+                        ? 'bg-slate-800 dark:bg-slate-600 text-white'
+                        : 'app-text-muted hover:app-text'
                     }`}
                   >
                     {t('no')}
@@ -471,15 +472,15 @@ export function CitizenFormModal({
 
           {/* Section 3: Conditional Allowance & Payment Fields */}
           {form.receivingAllowance && (
-            <div className="space-y-4 bg-slate-50 border border-slate-200 rounded-lg p-4">
-              <h3 className="text-sm font-semibold text-slate-900 pb-2 border-b border-slate-200">
+            <div className="space-y-4 app-surface-muted border app-border rounded-lg p-4">
+              <h3 className="text-sm font-semibold app-text pb-2 border-b app-border">
                 3. {t('allowanceInfoSection')}
               </h3>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
-                    {t('paymentMethod')} <span className="text-red-600">*</span>
+                  <label className="block text-xs font-medium app-text-muted mb-1">
+                    {t('paymentMethod')} <span className="text-red-600 dark:text-red-400">*</span>
                   </label>
                   <select
                     value={form.paymentMethod}
@@ -496,7 +497,7 @@ export function CitizenFormModal({
                           method === 'Post Office' ? prev.postOfficeName : '',
                       }));
                     }}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   >
                     <option value="Bank">{t('bank')}</option>
                     <option value="Post Office">{t('postOffice')}</option>
@@ -504,8 +505,8 @@ export function CitizenFormModal({
                 </div>
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
-                    {t('allowanceStatus')} <span className="text-red-600">*</span>
+                  <label className="block text-xs font-medium app-text-muted mb-1">
+                    {t('allowanceStatus')} <span className="text-red-600 dark:text-red-400">*</span>
                   </label>
                   <select
                     value={form.allowanceStatus}
@@ -515,7 +516,7 @@ export function CitizenFormModal({
                         allowanceStatus: e.target.value as AllowanceStatus,
                       })
                     }
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   >
                     <option value="Active">{t('statusActive')}</option>
                     <option value="Pending">{t('statusPending')}</option>
@@ -527,8 +528,8 @@ export function CitizenFormModal({
                 {form.paymentMethod === 'Bank' && (
                   <>
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
-                        {t('bankName')} <span className="text-red-600">*</span>
+                      <label className="block text-xs font-medium app-text-muted mb-1">
+                        {t('bankName')} <span className="text-red-600 dark:text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -537,12 +538,12 @@ export function CitizenFormModal({
                         value={form.bankName}
                         onChange={(e) => setForm({ ...form, bankName: e.target.value })}
                         placeholder="e.g. Bank of Ceylon / People's Bank"
-                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="app-input w-full px-3 py-2 text-sm border rounded-md"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
-                        {t('bankBranch')} <span className="text-red-600">*</span>
+                      <label className="block text-xs font-medium app-text-muted mb-1">
+                        {t('bankBranch')} <span className="text-red-600 dark:text-red-400">*</span>
                       </label>
                       <input
                         type="text"
@@ -551,11 +552,11 @@ export function CitizenFormModal({
                         value={form.bankBranch}
                         onChange={(e) => setForm({ ...form, bankBranch: e.target.value })}
                         placeholder="e.g. Adampan / Mannar"
-                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="app-input w-full px-3 py-2 text-sm border rounded-md"
                       />
                     </div>
                     <div className="sm:col-span-2">
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label className="block text-xs font-medium app-text-muted mb-1">
                         {t('bankAccountNumber')}
                       </label>
                       <input
@@ -566,7 +567,7 @@ export function CitizenFormModal({
                           setForm({ ...form, bankAccountNumber: e.target.value })
                         }
                         placeholder="Account Number"
-                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white font-mono-tabular focus:outline-none focus:ring-2 focus:ring-blue-600"
+                        className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                       />
                     </div>
                   </>
@@ -574,8 +575,8 @@ export function CitizenFormModal({
 
                 {form.paymentMethod === 'Post Office' && (
                   <div className="sm:col-span-2">
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
-                      {t('postOfficeName')} <span className="text-red-600">*</span>
+                    <label className="block text-xs font-medium app-text-muted mb-1">
+                      {t('postOfficeName')} <span className="text-red-600 dark:text-red-400">*</span>
                     </label>
                     <input
                       type="text"
@@ -586,13 +587,13 @@ export function CitizenFormModal({
                         setForm({ ...form, postOfficeName: e.target.value })
                       }
                       placeholder="e.g. Adampan Post Office / Vidathaltheevu Sub-Post Office"
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                      className="app-input w-full px-3 py-2 text-sm border rounded-md"
                     />
                   </div>
                 )}
 
                 <div className="sm:col-span-2">
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     {t('remarks')}
                   </label>
                   <textarea
@@ -601,25 +602,25 @@ export function CitizenFormModal({
                     value={form.remarks}
                     onChange={(e) => setForm({ ...form, remarks: e.target.value })}
                     placeholder="Additional notes regarding allowance or verification"
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   />
                 </div>
               </div>
             </div>
           )}
 
-          <div className="pt-4 border-t border-slate-200 flex items-center justify-end gap-3">
+          <div className="pt-4 border-t app-border flex items-center justify-end gap-3">
             <button
               type="button"
               onClick={onClose}
-              className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-md transition-colors"
+              className="px-4 py-2 text-sm font-medium app-text-muted app-surface border app-border hover:app-surface-muted rounded-md transition-colors"
             >
               {t('cancel')}
             </button>
             <button
               type="submit"
               disabled={submitting || divisions.length === 0}
-              className="px-5 py-2 text-sm font-semibold text-white bg-blue-700 hover:bg-blue-800 disabled:opacity-60 rounded-md transition-colors"
+              className="app-btn-primary px-5 py-2 text-sm font-semibold disabled:opacity-60 rounded-md transition-colors"
             >
               {submitting
                 ? 'Saving...'

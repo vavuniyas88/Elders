@@ -405,22 +405,22 @@ export function AdminManagementView({
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">{t('navAdmin')}</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold app-text">{t('navAdmin')}</h2>
+          <p className="text-sm app-text-subtle mt-0.5">
             Manage authorized staff accounts, audit trail, and database backups
           </p>
         </div>
       </div>
 
       {/* Sub-navigation Tabs */}
-      <div className="bg-white border border-slate-200 rounded-lg p-1.5 inline-flex flex-wrap gap-1">
+      <div className="app-card rounded-lg p-1.5 inline-flex flex-wrap gap-1">
         <button
           type="button"
           onClick={() => setSubTab('users')}
           className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-md transition-colors ${
             subTab === 'users'
-              ? 'bg-blue-700 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'app-btn-primary'
+              : 'app-text-muted hover:app-surface-muted'
           }`}
         >
           <Users className="w-4 h-4" />
@@ -431,8 +431,8 @@ export function AdminManagementView({
           onClick={() => setSubTab('audit')}
           className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-md transition-colors ${
             subTab === 'audit'
-              ? 'bg-blue-700 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'app-btn-primary'
+              : 'app-text-muted hover:app-surface-muted'
           }`}
         >
           <History className="w-4 h-4" />
@@ -443,8 +443,8 @@ export function AdminManagementView({
           onClick={() => setSubTab('backup')}
           className={`inline-flex items-center gap-2 px-3.5 py-2 text-xs font-medium rounded-md transition-colors ${
             subTab === 'backup'
-              ? 'bg-blue-700 text-white'
-              : 'text-slate-600 hover:bg-slate-100'
+              ? 'app-btn-primary'
+              : 'app-text-muted hover:app-surface-muted'
           }`}
         >
           <DatabaseBackup className="w-4 h-4" />
@@ -456,8 +456,8 @@ export function AdminManagementView({
         <div
           className={`p-3.5 rounded-md border flex items-start gap-2.5 text-sm ${
             feedback.type === 'success'
-              ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-              : 'bg-red-50 border-red-200 text-red-800'
+              ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-200'
+              : 'bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-200'
           }`}
         >
           {feedback.type === 'success' ? (
@@ -471,13 +471,13 @@ export function AdminManagementView({
 
       {/* TAB 1: User Management */}
       {subTab === 'users' && (
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-200 flex flex-wrap items-center justify-between gap-3">
+        <div className="app-card rounded-lg overflow-hidden">
+          <div className="px-5 py-4 border-b app-border flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold app-text">
                 {t('userManagement')}
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs app-text-subtle mt-0.5">
                 Only active Admin and User accounts can access private citizen records.
               </p>
             </div>
@@ -486,7 +486,7 @@ export function AdminManagementView({
                 <button
                   type="button"
                   onClick={openSetupAdminUsername}
-                  className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-md"
+                  className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold app-accent-text app-accent-soft border app-accent-border hover:opacity-90 rounded-md transition-colors"
                 >
                   <KeyRound className="w-4 h-4" />
                   Setup &quot;admin&quot; Username Login
@@ -495,7 +495,7 @@ export function AdminManagementView({
               <button
                 type="button"
                 onClick={openCreateUser}
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+                className="app-btn-primary inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold rounded-md transition-colors"
               >
                 <UserPlus className="w-4 h-4" />
                 {t('createUser')}
@@ -504,7 +504,7 @@ export function AdminManagementView({
           </div>
 
           {!hasAdminUsernameAccount && (
-            <div className="px-5 py-3 bg-amber-50 border-b border-amber-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-amber-900">
+            <div className="px-5 py-3 bg-amber-50 dark:bg-amber-950/40 border-b border-amber-200 dark:border-amber-800/60 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs text-amber-900 dark:text-amber-200">
               <span>
                 No username-based <strong>admin</strong> login account exists yet. Click{' '}
                 <strong>Setup &quot;admin&quot; Username Login</strong> to assign a password for signing
@@ -516,7 +516,7 @@ export function AdminManagementView({
 
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600">
+              <thead className="app-table-head text-xs font-semibold">
                 <tr>
                   <th className="px-4 py-3">Full Name</th>
                   <th className="px-4 py-3">Username</th>
@@ -526,18 +526,18 @@ export function AdminManagementView({
                   <th className="px-4 py-3 text-right">{t('actions')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y app-border">
                 {users.map((u) => (
-                  <tr key={u.uid} className="hover:bg-slate-50/70">
+                  <tr key={u.uid} className="app-table-row transition-colors">
                     <td className="px-4 py-2.5">
-                      <div className="font-medium text-slate-900">{u.fullName}</div>
-                      <div className="text-[11px] text-slate-400">{u.designation}</div>
+                      <div className="font-medium app-text">{u.fullName}</div>
+                      <div className="text-[11px] app-text-subtle">{u.designation}</div>
                     </td>
-                    <td className="px-4 py-2.5 font-mono-tabular text-xs text-slate-700">
+                    <td className="px-4 py-2.5 font-mono-tabular text-xs app-text-muted">
                       {u.username}
                     </td>
-                    <td className="px-4 py-2.5 text-xs text-slate-600">{u.email}</td>
-                    <td className="px-4 py-2.5 text-xs font-semibold text-slate-800">
+                    <td className="px-4 py-2.5 text-xs app-text-muted">{u.email}</td>
+                    <td className="px-4 py-2.5 text-xs font-semibold app-text">
                       {u.role === 'admin' ? t('roleAdmin') : t('roleUser')}
                     </td>
                     <td className="px-4 py-2.5 text-xs font-medium">
@@ -547,8 +547,8 @@ export function AdminManagementView({
                         onClick={() => handleToggleUserStatus(u)}
                         className={`underline decoration-dotted disabled:no-underline ${
                           u.status === 'active'
-                            ? 'text-emerald-700'
-                            : 'text-amber-700'
+                            ? 'text-emerald-700 dark:text-emerald-400'
+                            : 'text-amber-700 dark:text-amber-400'
                         }`}
                       >
                         {u.status === 'active' ? 'Active' : 'Inactive'}
@@ -559,7 +559,7 @@ export function AdminManagementView({
                         <button
                           type="button"
                           onClick={() => openEditUser(u)}
-                          className="p-1.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded"
+                          className="p-1.5 app-text-muted hover:app-accent-text hover:app-accent-soft rounded transition-colors"
                           title={t('edit')}
                         >
                           <Edit3 className="w-4 h-4" />
@@ -568,7 +568,7 @@ export function AdminManagementView({
                           <button
                             type="button"
                             onClick={() => setDeletingUser(u)}
-                            className="p-1.5 text-slate-600 hover:text-red-700 hover:bg-red-50 rounded"
+                            className="p-1.5 app-text-muted hover:text-red-700 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 rounded transition-colors"
                             title={t('delete')}
                           >
                             <Trash2 className="w-4 h-4" />
@@ -586,13 +586,13 @@ export function AdminManagementView({
 
       {/* TAB 2: Audit Logs */}
       {subTab === 'audit' && (
-        <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-          <div className="px-5 py-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+        <div className="app-card rounded-lg overflow-hidden">
+          <div className="px-5 py-4 border-b app-border flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold app-text">
                 {t('auditLogs')}
               </h3>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs app-text-subtle mt-0.5">
                 Immutable system log of record additions, updates, deletions, and admin actions
               </p>
             </div>
@@ -601,18 +601,18 @@ export function AdminManagementView({
               value={auditFilter}
               onChange={(e) => setAuditFilter(e.target.value)}
               placeholder="Filter logs by user or action..."
-              className="px-3 py-1.5 text-xs border border-slate-300 rounded-md w-full sm:w-64"
+              className="app-input px-3 py-1.5 text-xs border rounded-md w-full sm:w-64"
             />
           </div>
 
           {filteredLogs.length === 0 ? (
-            <div className="p-10 text-center text-sm text-slate-500">
+            <div className="p-10 text-center text-sm app-text-subtle">
               No audit log entries recorded yet.
             </div>
           ) : (
             <div className="overflow-x-auto">
               <table className="w-full text-xs sm:text-sm text-left">
-                <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600">
+                <thead className="app-table-head text-xs font-semibold">
                   <tr>
                     <th className="px-4 py-3">Timestamp</th>
                     <th className="px-4 py-3">Action</th>
@@ -620,19 +620,19 @@ export function AdminManagementView({
                     <th className="px-4 py-3">Details</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-slate-100">
+                <tbody className="divide-y app-border">
                   {filteredLogs.map((log) => (
-                    <tr key={log.id} className="hover:bg-slate-50/70">
-                      <td className="px-4 py-2.5 font-mono-tabular text-xs text-slate-500 whitespace-nowrap">
+                    <tr key={log.id} className="app-table-row transition-colors">
+                      <td className="px-4 py-2.5 font-mono-tabular text-xs app-text-subtle whitespace-nowrap">
                         {formatTimestamp(log.timestamp)}
                       </td>
-                      <td className="px-4 py-2.5 font-mono-tabular text-xs font-semibold text-slate-800 whitespace-nowrap">
+                      <td className="px-4 py-2.5 font-mono-tabular text-xs font-semibold app-text whitespace-nowrap">
                         {log.action}
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-slate-700 whitespace-nowrap">
+                      <td className="px-4 py-2.5 text-xs app-text-muted whitespace-nowrap">
                         {log.performedByName} ({log.performedByRole})
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-slate-700">
+                      <td className="px-4 py-2.5 text-xs app-text-muted">
                         {log.summary}
                       </td>
                     </tr>
@@ -647,12 +647,12 @@ export function AdminManagementView({
       {/* TAB 3: Backup, Restore & Public Stats Sync */}
       {subTab === 'backup' && (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="bg-white border border-slate-200 rounded-lg p-5 space-y-3 flex flex-col justify-between">
+          <div className="app-card rounded-lg p-5 space-y-3 flex flex-col justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold app-text">
                 1. Data Backup (Export JSON)
               </h3>
-              <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              <p className="text-xs app-text-muted mt-1.5 leading-relaxed">
                 Download a complete snapshot of all GN divisions and elderly citizen
                 records ({citizens.length} records) as an offline JSON backup file.
               </p>
@@ -661,25 +661,25 @@ export function AdminManagementView({
               type="button"
               disabled={busy}
               onClick={handleDownloadBackup}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+              className="app-btn-primary inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold rounded-md transition-colors"
             >
               <DatabaseBackup className="w-4 h-4" />
               {t('downloadBackup')}
             </button>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-lg p-5 space-y-3 flex flex-col justify-between">
+          <div className="app-card rounded-lg p-5 space-y-3 flex flex-col justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold app-text">
                 2. Data Restore (Import JSON)
               </h3>
-              <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              <p className="text-xs app-text-muted mt-1.5 leading-relaxed">
                 Restore GN divisions and elderly citizen records from a previously
                 exported JSON backup. Existing NIC numbers are safely skipped to prevent
                 duplicates.
               </p>
             </div>
-            <label className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-md cursor-pointer">
+            <label className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold app-text-muted app-surface-muted hover:opacity-90 border app-border rounded-md cursor-pointer transition-colors">
               <Upload className="w-4 h-4" />
               <span>{t('restoreBackup')}</span>
               <input
@@ -692,12 +692,12 @@ export function AdminManagementView({
             </label>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-lg p-5 space-y-3 flex flex-col justify-between">
+          <div className="app-card rounded-lg p-5 space-y-3 flex flex-col justify-between">
             <div>
-              <h3 className="text-sm font-semibold text-slate-900">
+              <h3 className="text-sm font-semibold app-text">
                 3. {t('syncPublicStats')}
               </h3>
-              <p className="text-xs text-slate-600 mt-1.5 leading-relaxed">
+              <p className="text-xs app-text-muted mt-1.5 leading-relaxed">
                 Recompute anonymous age-group, allowance, and GN division totals from
                 the main database and publish them to the Public Portal.
               </p>
@@ -706,7 +706,7 @@ export function AdminManagementView({
               type="button"
               disabled={busy}
               onClick={handleSyncPublic}
-              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold text-blue-800 bg-blue-50 hover:bg-blue-100 border border-blue-200 rounded-md"
+              className="inline-flex items-center justify-center gap-2 px-4 py-2 text-xs font-semibold app-accent-text app-accent-soft border app-accent-border hover:opacity-90 rounded-md transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               {t('syncPublicStats')}
@@ -718,19 +718,20 @@ export function AdminManagementView({
       {/* Create/Edit User Modal */}
       {userModalOpen && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px] flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-lg w-full max-w-lg overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
-              <h3 className="text-base font-bold text-slate-900">
+          <div className="app-card rounded-lg w-full max-w-lg overflow-hidden">
+            <div className="app-crest-ribbon w-full" />
+            <div className="px-6 py-4 border-b app-border flex items-center justify-between">
+              <h3 className="text-base font-bold app-text">
                 {editingUser ? `Edit User: ${editingUser.username}` : t('createUser')}
               </h3>
               <button
                 type="button"
                 onClick={() => setUserModalOpen(false)}
-                className="p-1 text-slate-400 hover:text-slate-700"
+                className="p-1 app-text-subtle hover:app-text rounded transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -739,7 +740,7 @@ export function AdminManagementView({
             <form onSubmit={handleSaveUser} className="p-6 space-y-4">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Full Name *
                   </label>
                   <input
@@ -747,11 +748,11 @@ export function AdminManagementView({
                     required
                     value={fullName}
                     onChange={(e) => setFullName(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Username *
                   </label>
                   <input
@@ -761,14 +762,14 @@ export function AdminManagementView({
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     placeholder="e.g. edo_officer1"
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular disabled:bg-slate-50"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular disabled:opacity-60"
                   />
                 </div>
 
                 {!editingUser && (
                   <>
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label className="block text-xs font-medium app-text-muted mb-1">
                         Email (Optional — auto-mapped if blank)
                       </label>
                       <input
@@ -776,11 +777,11 @@ export function AdminManagementView({
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder={`${username.trim().toLowerCase() || 'username'}@manthaiwest.gov.lk`}
-                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                        className="app-input w-full px-3 py-2 text-sm border rounded-md"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-medium text-slate-700 mb-1">
+                      <label className="block text-xs font-medium app-text-muted mb-1">
                         Initial Password *
                       </label>
                       <input
@@ -790,16 +791,16 @@ export function AdminManagementView({
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                         placeholder="Min 6 characters"
-                        className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                        className="app-input w-full px-3 py-2 text-sm border rounded-md"
                       />
                     </div>
-                    <div className="sm:col-span-2 px-3 py-2 bg-slate-50 border border-slate-200 rounded-md text-xs text-slate-600">
+                    <div className="sm:col-span-2 px-3 py-2 app-surface-muted border app-border rounded-md text-xs app-text-muted">
                       Login identifier:{' '}
-                      <span className="font-mono-tabular font-semibold text-slate-900">
+                      <span className="font-mono-tabular font-semibold app-text">
                         {username.trim().toLowerCase() || 'username'}
                       </span>{' '}
                       (Firebase Auth email:{' '}
-                      <span className="font-mono-tabular text-slate-800">
+                      <span className="font-mono-tabular app-text">
                         {email.trim()
                           ? email.trim().toLowerCase()
                           : `${username.trim().toLowerCase().replace(/[^a-z0-9._-]/g, '') || 'username'}@manthaiwest.gov.lk`}
@@ -810,48 +811,48 @@ export function AdminManagementView({
                 )}
 
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Designation
                   </label>
                   <input
                     type="text"
                     value={designation}
                     onChange={(e) => setDesignation(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Phone
                   </label>
                   <input
                     type="text"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Role *
                   </label>
                   <select
                     value={role}
                     onChange={(e) => setRole(e.target.value as UserRole)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   >
                     <option value="user">{t('roleUser')}</option>
                     <option value="admin">{t('roleAdmin')}</option>
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Status *
                   </label>
                   <select
                     value={status}
                     onChange={(e) => setStatus(e.target.value as UserStatus)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   >
                     <option value="active">Active</option>
                     <option value="inactive">Inactive</option>
@@ -859,18 +860,18 @@ export function AdminManagementView({
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-slate-200 flex justify-end gap-2.5">
+              <div className="pt-3 border-t app-border flex justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setUserModalOpen(false)}
-                  className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md"
+                  className="px-4 py-2 text-xs font-medium app-text-muted app-surface border app-border hover:app-surface-muted rounded-md transition-colors"
                 >
                   {t('cancel')}
                 </button>
                 <button
                   type="submit"
                   disabled={busy}
-                  className="px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+                  className="app-btn-primary px-4 py-2 text-xs font-semibold rounded-md transition-colors"
                 >
                   {busy ? 'Saving...' : t('saveRecord')}
                 </button>
@@ -883,44 +884,47 @@ export function AdminManagementView({
       {/* Delete User Confirmation */}
       {deletingUser && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px] flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-lg w-full max-w-md p-6 space-y-4">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-red-50 text-red-700 rounded-md shrink-0">
-                <AlertTriangle className="w-5 h-5" />
+          <div className="app-card rounded-lg w-full max-w-md overflow-hidden">
+            <div className="app-crest-ribbon w-full" />
+            <div className="p-6 space-y-4">
+              <div className="flex items-start gap-3">
+                <div className="p-2 bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-400 rounded-md shrink-0">
+                  <AlertTriangle className="w-5 h-5" />
+                </div>
+                <div>
+                  <h3 className="text-base font-bold app-text">
+                    Delete User Account
+                  </h3>
+                  <p className="text-sm app-text-muted mt-1">
+                    Are you sure you want to remove{' '}
+                    <strong className="app-text">
+                      {deletingUser.fullName} ({deletingUser.username})
+                    </strong>
+                    ? They will immediately lose access to the system.
+                  </p>
+                </div>
               </div>
-              <div>
-                <h3 className="text-base font-bold text-slate-900">
-                  Delete User Account
-                </h3>
-                <p className="text-sm text-slate-600 mt-1">
-                  Are you sure you want to remove{' '}
-                  <strong>
-                    {deletingUser.fullName} ({deletingUser.username})
-                  </strong>
-                  ? They will immediately lose access to the system.
-                </p>
+              <div className="flex justify-end gap-2.5">
+                <button
+                  type="button"
+                  onClick={() => setDeletingUser(null)}
+                  className="px-4 py-2 text-xs font-medium app-text-muted app-surface border app-border hover:app-surface-muted rounded-md transition-colors"
+                >
+                  {t('cancel')}
+                </button>
+                <button
+                  type="button"
+                  disabled={busy}
+                  onClick={handleDeleteUser}
+                  className="px-4 py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-md transition-colors"
+                >
+                  {busy ? 'Deleting...' : t('confirmDeleteBtn')}
+                </button>
               </div>
-            </div>
-            <div className="flex justify-end gap-2.5">
-              <button
-                type="button"
-                onClick={() => setDeletingUser(null)}
-                className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 rounded-md"
-              >
-                {t('cancel')}
-              </button>
-              <button
-                type="button"
-                disabled={busy}
-                onClick={handleDeleteUser}
-                className="px-4 py-2 text-xs font-semibold text-white bg-red-600 hover:bg-red-700 rounded-md"
-              >
-                {busy ? 'Deleting...' : t('confirmDeleteBtn')}
-              </button>
             </div>
           </div>
         </div>

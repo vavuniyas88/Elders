@@ -126,24 +126,25 @@ export function ProfileModal({
 
   return (
     <div
-      className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4 overflow-y-auto"
+      className="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-[1px] flex items-center justify-center p-4 overflow-y-auto"
       role="dialog"
       aria-modal="true"
     >
-      <div className="bg-white border border-slate-200 rounded-lg w-full max-w-lg overflow-hidden my-auto">
-        <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+      <div className="app-card rounded-lg w-full max-w-lg overflow-hidden my-auto">
+        <div className="app-crest-ribbon w-full" />
+        <div className="px-6 py-4 border-b app-border flex items-center justify-between">
           <div>
-            <h3 className="text-base font-bold text-slate-900">
+            <h3 className="text-base font-bold app-text">
               {t('profileSettings')}
             </h3>
-            <p className="text-xs text-slate-500 mt-0.5 font-mono-tabular">
+            <p className="text-xs app-text-subtle mt-0.5 font-mono-tabular">
               {profile.username} · {profile.email}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
-            className="p-1 text-slate-400 hover:text-slate-700"
+            className="p-1 app-text-subtle hover:app-text rounded transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
@@ -154,8 +155,8 @@ export function ProfileModal({
             <div
               className={`p-3 rounded-md border flex items-start gap-2 text-xs ${
                 feedback.type === 'success'
-                  ? 'bg-emerald-50 border-emerald-200 text-emerald-800'
-                  : 'bg-red-50 border-red-200 text-red-800'
+                  ? 'bg-emerald-50 dark:bg-emerald-950/40 border-emerald-200 dark:border-emerald-800/60 text-emerald-800 dark:text-emerald-200'
+                  : 'bg-red-50 dark:bg-red-950/40 border-red-200 dark:border-red-800/60 text-red-800 dark:text-red-200'
               }`}
             >
               {feedback.type === 'success' ? (
@@ -169,12 +170,12 @@ export function ProfileModal({
 
           {/* Profile Info Form */}
           <form onSubmit={handleSaveProfile} className="space-y-3">
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-800">
-              <User className="w-4 h-4 text-blue-700" />
+            <div className="flex items-center gap-2 text-xs font-semibold app-text">
+              <User className="w-4 h-4 app-accent-text" />
               <span>Account Profile ({profile.role === 'admin' ? t('roleAdmin') : t('roleUser')})</span>
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
+              <label className="block text-xs font-medium app-text-muted mb-1">
                 Full Name
               </label>
               <input
@@ -182,30 +183,30 @@ export function ProfileModal({
                 required
                 value={fullName}
                 onChange={(e) => setFullName(e.target.value)}
-                className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                className="app-input w-full px-3 py-2 text-sm border rounded-md"
               />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-medium app-text-muted mb-1">
                   Designation
                 </label>
                 <input
                   type="text"
                   value={designation}
                   onChange={(e) => setDesignation(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md"
                 />
               </div>
               <div>
-                <label className="block text-xs font-medium text-slate-700 mb-1">
+                <label className="block text-xs font-medium app-text-muted mb-1">
                   Phone
                 </label>
                 <input
                   type="text"
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md font-mono-tabular"
+                  className="app-input w-full px-3 py-2 text-sm border rounded-md font-mono-tabular"
                 />
               </div>
             </div>
@@ -213,7 +214,7 @@ export function ProfileModal({
               <button
                 type="submit"
                 disabled={busy}
-                className="px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+                className="app-btn-primary px-4 py-2 text-xs font-semibold rounded-md transition-colors"
               >
                 Update Profile
               </button>
@@ -223,22 +224,22 @@ export function ProfileModal({
           {/* Change Password Section */}
           <form
             onSubmit={handleChangePassword}
-            className="pt-5 border-t border-slate-200 space-y-3"
+            className="pt-5 border-t app-border space-y-3"
           >
-            <div className="flex items-center gap-2 text-xs font-semibold text-slate-800">
-              <KeyRound className="w-4 h-4 text-blue-700" />
+            <div className="flex items-center gap-2 text-xs font-semibold app-text">
+              <KeyRound className="w-4 h-4 app-accent-text" />
               <span>Change Password</span>
             </div>
 
             {!hasPasswordProvider ? (
-              <p className="text-xs text-slate-500">
+              <p className="text-xs app-text-subtle">
                 You signed in using Google Authentication. Manage your password through
                 your Google Account security settings.
               </p>
             ) : (
               <>
                 <div>
-                  <label className="block text-xs font-medium text-slate-700 mb-1">
+                  <label className="block text-xs font-medium app-text-muted mb-1">
                     Current Password
                   </label>
                   <input
@@ -246,12 +247,12 @@ export function ProfileModal({
                     required
                     value={currentPassword}
                     onChange={(e) => setCurrentPassword(e.target.value)}
-                    className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                    className="app-input w-full px-3 py-2 text-sm border rounded-md"
                   />
                 </div>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                    <label className="block text-xs font-medium app-text-muted mb-1">
                       New Password
                     </label>
                     <input
@@ -260,11 +261,11 @@ export function ProfileModal({
                       minLength={6}
                       value={newPassword}
                       onChange={(e) => setNewPassword(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                      className="app-input w-full px-3 py-2 text-sm border rounded-md"
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-medium text-slate-700 mb-1">
+                    <label className="block text-xs font-medium app-text-muted mb-1">
                       Confirm New Password
                     </label>
                     <input
@@ -273,7 +274,7 @@ export function ProfileModal({
                       minLength={6}
                       value={confirmPassword}
                       onChange={(e) => setConfirmPassword(e.target.value)}
-                      className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md"
+                      className="app-input w-full px-3 py-2 text-sm border rounded-md"
                     />
                   </div>
                 </div>
@@ -281,7 +282,7 @@ export function ProfileModal({
                   <button
                     type="submit"
                     disabled={busy}
-                    className="px-4 py-2 text-xs font-semibold text-slate-800 bg-slate-100 hover:bg-slate-200 border border-slate-300 rounded-md"
+                    className="px-4 py-2 text-xs font-semibold app-text app-surface-muted hover:opacity-90 border app-border rounded-md transition-colors"
                   >
                     Update Password
                   </button>

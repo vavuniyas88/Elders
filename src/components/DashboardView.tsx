@@ -71,49 +71,49 @@ export function DashboardView({
       label: t('kpiTotalRegistered'),
       value: stats.totalRegistered,
       icon: Users,
-      accent: 'text-blue-700 bg-blue-50',
+      accent: 'app-accent-text app-accent-soft',
       category: 'all_60_plus',
     },
     {
       label: t('kpiAged60Plus'),
       value: stats.aged60Plus,
       icon: Users,
-      accent: 'text-slate-700 bg-slate-100',
+      accent: 'app-text-muted app-surface-muted',
       category: 'all_60_plus',
     },
     {
       label: t('kpiAged70Plus'),
       value: stats.aged70Plus,
       icon: Users,
-      accent: 'text-indigo-700 bg-indigo-50',
+      accent: 'text-indigo-700 dark:text-indigo-300 bg-indigo-50 dark:bg-indigo-950/50',
       category: 'aged_70_plus',
     },
     {
       label: t('kpiReceivingAllowance'),
       value: stats.receivingAllowance,
       icon: Wallet,
-      accent: 'text-emerald-700 bg-emerald-50',
+      accent: 'text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50',
       category: 'allowance_recipients',
     },
     {
       label: t('kpiNotReceivingAllowance'),
       value: stats.notReceivingAllowance,
       icon: Wallet,
-      accent: 'text-amber-700 bg-amber-50',
+      accent: 'text-amber-700 dark:text-amber-300 bg-amber-50 dark:bg-amber-950/50',
       category: 'non_allowance_70_plus',
     },
     {
       label: t('kpiBankRecipients'),
       value: stats.bankRecipients,
       icon: Landmark,
-      accent: 'text-blue-700 bg-blue-50',
+      accent: 'app-accent-text app-accent-soft',
       category: 'bank_recipients',
     },
     {
       label: t('kpiPostOfficeRecipients'),
       value: stats.postOfficeRecipients,
       icon: Mail,
-      accent: 'text-sky-700 bg-sky-50',
+      accent: 'text-sky-700 dark:text-sky-300 bg-sky-50 dark:bg-sky-950/50',
       category: 'post_office_recipients',
     },
   ];
@@ -135,8 +135,8 @@ export function DashboardView({
       {/* Top Action Strip */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">{t('navDashboard')}</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold app-text">{t('navDashboard')}</h2>
+          <p className="text-sm app-text-subtle mt-0.5">
             {t('appTitle')} · {recent30DaysCount} new registration(s) in the last 30 days
           </p>
         </div>
@@ -144,7 +144,7 @@ export function DashboardView({
         <button
           type="button"
           onClick={onOpenRegister}
-          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md transition-colors whitespace-nowrap self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold app-btn-primary rounded-md transition-colors whitespace-nowrap self-start sm:self-auto"
         >
           <UserPlus className="w-4 h-4" />
           {t('registerCitizen')}
@@ -160,13 +160,13 @@ export function DashboardView({
               key={card.label}
               type="button"
               onClick={() => card.category && onNavigateToCategory(card.category)}
-              className="text-left bg-white border border-slate-200 hover:border-blue-300 rounded-lg p-5 flex items-start justify-between gap-3 transition-colors"
+              className="text-left app-card hover:border-[var(--theme-accent)] rounded-lg p-5 flex items-start justify-between gap-3 transition-colors"
             >
               <div className="min-w-0">
-                <p className="text-xs font-medium text-slate-500 leading-snug">
+                <p className="text-xs font-medium app-text-subtle leading-snug">
                   {card.label}
                 </p>
-                <p className="mt-2 text-3xl font-bold text-slate-900 font-mono-tabular">
+                <p className="mt-2 text-3xl font-bold app-text font-mono-tabular">
                   {card.value.toLocaleString()}
                 </p>
               </div>
@@ -186,7 +186,7 @@ export function DashboardView({
           centerLabel={t('kpiAged60Plus')}
           slices={[
             { label: t('aged60To69'), value: stats.aged60To69, color: '#0284c7' },
-            { label: t('aged70Plus'), value: stats.aged70Plus, color: '#1e3a8a' },
+            { label: t('aged70Plus'), value: stats.aged70Plus, color: '#0f3d6e' },
           ]}
         />
 
@@ -195,7 +195,7 @@ export function DashboardView({
           subtitle={`${t('bankPayment')} vs ${t('postOfficePayment')}`}
           centerLabel={t('receiving')}
           slices={[
-            { label: t('bankPayment'), value: stats.bankRecipients, color: '#1d4ed8' },
+            { label: t('bankPayment'), value: stats.bankRecipients, color: 'var(--theme-accent)' },
             {
               label: t('postOfficePayment'),
               value: stats.postOfficeRecipients,
@@ -204,7 +204,7 @@ export function DashboardView({
             {
               label: t('notReceiving'),
               value: stats.notReceivingAllowance,
-              color: '#cbd5e1',
+              color: '#94a3b8',
             },
           ]}
         />
@@ -217,8 +217,8 @@ export function DashboardView({
           subtitle="Receiving allowance vs Not receiving across GN divisions"
           primaryLabel={t('receiving')}
           secondaryLabel={t('notReceiving')}
-          primaryColor="#1d4ed8"
-          secondaryColor="#cbd5e1"
+          primaryColor="var(--theme-accent)"
+          secondaryColor="#94a3b8"
           data={divisionChartData}
           maxItems={10}
         />
@@ -236,12 +236,12 @@ export function DashboardView({
             {
               label: t('statusPending'),
               value: stats.allowanceStatusCounts.Pending,
-              color: '#d97706',
+              color: '#b88628',
             },
             {
               label: t('statusSuspended'),
               value: stats.allowanceStatusCounts.Suspended,
-              color: '#dc2626',
+              color: '#b91c1c',
             },
             {
               label: t('statusOther'),
@@ -251,22 +251,22 @@ export function DashboardView({
             {
               label: t('statusNotApplicable'),
               value: stats.allowanceStatusCounts['Not Applicable'],
-              color: '#e2e8f0',
+              color: '#94a3b8',
             },
           ]}
         />
       </div>
 
       {/* Recent Registrations Table */}
-      <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
-        <div className="px-5 py-4 border-b border-slate-200 flex items-center justify-between gap-4">
-          <h3 className="text-sm font-semibold text-slate-900">
+      <div className="app-card rounded-lg overflow-hidden">
+        <div className="px-5 py-4 border-b app-border flex items-center justify-between gap-4">
+          <h3 className="text-sm font-semibold app-text">
             {t('recentRegistrations')}
           </h3>
           <button
             type="button"
             onClick={() => onNavigateToCategory('all_60_plus')}
-            className="text-xs font-medium text-blue-700 hover:underline"
+            className="text-xs font-medium app-accent-text hover:underline"
           >
             View All Records &rarr;
           </button>
@@ -274,13 +274,13 @@ export function DashboardView({
 
         {recentCitizens.length === 0 ? (
           <div className="p-10 text-center space-y-3">
-            <p className="text-sm text-slate-500">
+            <p className="text-sm app-text-subtle">
               No elderly citizens have been registered yet.
             </p>
             <button
               type="button"
               onClick={onOpenRegister}
-              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold app-btn-primary rounded-md transition-colors"
             >
               <UserPlus className="w-4 h-4" />
               {t('registerFirstCitizen')}
@@ -289,7 +289,7 @@ export function DashboardView({
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600">
+              <thead className="app-table-head text-xs font-semibold">
                 <tr>
                   <th className="px-4 py-3">{t('fullName')}</th>
                   <th className="px-4 py-3">{t('nicNumber')}</th>
@@ -299,27 +299,27 @@ export function DashboardView({
                   <th className="px-4 py-3">Registered On</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[var(--theme-border)]">
                 {recentCitizens.map((c) => {
                   const age = calculateAge(c.dateOfBirth, referenceDate);
                   return (
-                    <tr key={c.id} className="hover:bg-slate-50/70">
-                      <td className="px-4 py-2.5 font-medium text-slate-900">
+                    <tr key={c.id} className="app-table-row transition-colors">
+                      <td className="px-4 py-2.5 font-medium app-text">
                         {c.fullName}
                       </td>
-                      <td className="px-4 py-2.5 font-mono-tabular text-xs text-slate-700">
+                      <td className="px-4 py-2.5 font-mono-tabular text-xs app-text-muted">
                         {c.nicNumber}
                       </td>
-                      <td className="px-4 py-2.5 text-right font-mono-tabular text-slate-900">
+                      <td className="px-4 py-2.5 text-right font-mono-tabular app-text">
                         {age}
                       </td>
-                      <td className="px-4 py-2.5 text-slate-700">
+                      <td className="px-4 py-2.5 app-text-muted">
                         {c.gnDivisionName}
                       </td>
-                      <td className="px-4 py-2.5 text-slate-700">
+                      <td className="px-4 py-2.5 app-text-muted">
                         {c.receivingAllowance ? c.paymentMethod : t('no')}
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-slate-500 font-mono-tabular">
+                      <td className="px-4 py-2.5 text-xs app-text-subtle font-mono-tabular">
                         {formatTimestamp(c.createdAt, false)}
                       </td>
                     </tr>

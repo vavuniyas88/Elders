@@ -31,24 +31,24 @@ export class ErrorBoundary extends React.Component<
   render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6">
-          <div className="max-w-lg w-full bg-white border border-slate-200 rounded-lg p-6">
+        <div className="min-h-screen app-canvas flex items-center justify-center p-6">
+          <div className="max-w-lg w-full app-card rounded-lg p-6">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-red-50 text-red-700 rounded-md shrink-0">
+              <div className="p-2 bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-400 rounded-md shrink-0">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <div className="min-w-0 flex-1">
-                <h2 className="text-base font-semibold text-slate-900">
+                <h2 className="text-base font-semibold app-text">
                   System Notification
                 </h2>
-                <p className="mt-1.5 text-sm text-slate-600 break-words">
+                <p className="mt-1.5 text-sm app-text-muted break-words">
                   {this.state.message}
                 </p>
                 <div className="mt-4 flex items-center gap-3">
                   <button
                     type="button"
                     onClick={() => window.location.reload()}
-                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 rounded-md transition-colors"
+                    className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium app-btn-primary rounded-md transition-colors"
                   >
                     <RotateCcw className="w-4 h-4" />
                     Reload Application

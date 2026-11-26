@@ -224,13 +224,13 @@ export function CitizenRegistryView({
   const getStatusClass = (status: AllowanceStatus): string => {
     switch (status) {
       case 'Active':
-        return 'text-emerald-700';
+        return 'text-emerald-700 dark:text-emerald-400';
       case 'Pending':
-        return 'text-amber-700';
+        return 'text-amber-700 dark:text-amber-400';
       case 'Suspended':
-        return 'text-red-700';
+        return 'text-red-700 dark:text-red-400';
       default:
-        return 'text-slate-600';
+        return 'app-text-subtle';
     }
   };
 
@@ -239,8 +239,8 @@ export function CitizenRegistryView({
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">{t('navCitizens')}</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold app-text">{t('navCitizens')}</h2>
+          <p className="text-sm app-text-subtle mt-0.5">
             Dynamic age categories, multi-criteria filtering, and citizen record registry
           </p>
         </div>
@@ -248,7 +248,7 @@ export function CitizenRegistryView({
         <button
           type="button"
           onClick={onOpenRegister}
-          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md transition-colors whitespace-nowrap self-start sm:self-auto"
+          className="inline-flex items-center gap-2 px-4 py-2.5 text-sm font-semibold app-btn-primary rounded-md transition-colors whitespace-nowrap self-start sm:self-auto"
         >
           <UserPlus className="w-4 h-4" />
           {t('registerCitizen')}
@@ -256,14 +256,14 @@ export function CitizenRegistryView({
       </div>
 
       {!isAdmin && (
-        <div className="bg-blue-50 border border-blue-200 rounded-md px-4 py-2.5 flex items-center gap-2.5 text-xs text-blue-900">
-          <Info className="w-4 h-4 text-blue-700 shrink-0" />
+        <div className="app-accent-soft border app-accent-border rounded-md px-4 py-2.5 flex items-center gap-2.5 text-xs app-text">
+          <Info className="w-4 h-4 app-accent-text shrink-0" />
           <span>{t('readOnlyOfficerNotice')}</span>
         </div>
       )}
 
       {/* 7 Dynamic Category Tabs */}
-      <div className="bg-white border border-slate-200 rounded-lg p-1.5 flex flex-wrap gap-1">
+      <div className="app-card rounded-lg p-1.5 flex flex-wrap gap-1">
         {categoryTabs.map((tab) => {
           const active = activeCategory === tab.id;
           return (
@@ -276,14 +276,14 @@ export function CitizenRegistryView({
               }}
               className={`px-3 py-2 text-xs font-medium rounded-md transition-colors whitespace-nowrap flex items-center gap-2 ${
                 active
-                  ? 'bg-blue-700 text-white'
-                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  ? 'app-btn-primary'
+                  : 'app-text-muted hover:bg-[var(--theme-surface-muted)]'
               }`}
             >
               <span>{tab.label}</span>
               <span
                 className={`font-mono-tabular ${
-                  active ? 'text-blue-100' : 'text-slate-400'
+                  active ? 'text-white/80' : 'app-text-subtle'
                 }`}
               >
                 {tab.count}
@@ -294,16 +294,16 @@ export function CitizenRegistryView({
       </div>
 
       {/* Search & Multi-Filter Controls */}
-      <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-3">
+      <div className="app-card rounded-lg p-4 space-y-3">
         <div className="flex flex-col md:flex-row gap-3">
           <div className="relative flex-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 app-text-subtle absolute left-3 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               value={filters.search}
               onChange={(e) => updateFilter('search', e.target.value)}
               placeholder={t('searchPlaceholder')}
-              className="w-full pl-9 pr-3 py-2 text-sm border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full pl-9 pr-3 py-2 text-sm app-input border rounded-md"
             />
           </div>
 
@@ -311,7 +311,7 @@ export function CitizenRegistryView({
             <select
               value={sortField}
               onChange={(e) => setSortField(e.target.value as SortField)}
-              className="px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="px-3 py-2 text-sm app-input border rounded-md"
               aria-label={t('sortBy')}
             >
               <option value="createdAt">{t('sortBy')}: {t('sortRecent')}</option>
@@ -325,7 +325,7 @@ export function CitizenRegistryView({
               onClick={() =>
                 setSortDirection((d) => (d === 'asc' ? 'desc' : 'asc'))
               }
-              className="px-3 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md border border-slate-200 whitespace-nowrap"
+              className="px-3 py-2 text-xs font-medium app-text app-surface-muted hover:opacity-90 rounded-md border app-border whitespace-nowrap"
             >
               {sortDirection === 'asc' ? 'Asc ↑' : 'Desc ↓'}
             </button>
@@ -333,7 +333,7 @@ export function CitizenRegistryView({
             <button
               type="button"
               onClick={clearFilters}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-700 bg-white hover:bg-slate-50 border border-slate-300 rounded-md whitespace-nowrap"
+              className="inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium app-text app-surface hover:bg-[var(--theme-surface-muted)] border app-border rounded-md whitespace-nowrap"
             >
               <FilterX className="w-3.5 h-3.5" />
               {t('clearFilters')}
@@ -345,7 +345,7 @@ export function CitizenRegistryView({
           <select
             value={filters.gnDivisionId}
             onChange={(e) => updateFilter('gnDivisionId', e.target.value)}
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterDivision')}
           >
             <option value="all">{t('filterDivision')}: {t('allOption')}</option>
@@ -361,7 +361,7 @@ export function CitizenRegistryView({
             onChange={(e) =>
               updateFilter('ageRange', e.target.value as FilterState['ageRange'])
             }
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterAgeRange')}
           >
             <option value="all">{t('filterAgeRange')}: {t('allOption')}</option>
@@ -375,7 +375,7 @@ export function CitizenRegistryView({
             onChange={(e) =>
               updateFilter('gender', e.target.value as 'all' | Gender)
             }
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterGender')}
           >
             <option value="all">{t('filterGender')}: {t('allOption')}</option>
@@ -391,7 +391,7 @@ export function CitizenRegistryView({
                 e.target.value as 'all' | AllowanceStatus
               )
             }
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterAllowanceStatus')}
           >
             <option value="all">{t('filterAllowanceStatus')}: {t('allOption')}</option>
@@ -407,7 +407,7 @@ export function CitizenRegistryView({
             onChange={(e) =>
               updateFilter('paymentMethod', e.target.value as 'all' | PaymentMethod)
             }
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterPaymentMethod')}
           >
             <option value="all">{t('filterPaymentMethod')}: {t('allOption')}</option>
@@ -419,7 +419,7 @@ export function CitizenRegistryView({
           <select
             value={filters.bankName}
             onChange={(e) => updateFilter('bankName', e.target.value)}
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterBankName')}
           >
             <option value="all">{t('filterBankName')}: {t('allOption')}</option>
@@ -433,7 +433,7 @@ export function CitizenRegistryView({
           <select
             value={filters.postOfficeName}
             onChange={(e) => updateFilter('postOfficeName', e.target.value)}
-            className="px-2.5 py-1.5 text-xs border border-slate-300 rounded-md bg-white"
+            className="px-2.5 py-1.5 text-xs app-input border rounded-md"
             aria-label={t('filterPostOffice')}
           >
             <option value="all">{t('filterPostOffice')}: {t('allOption')}</option>
@@ -445,10 +445,10 @@ export function CitizenRegistryView({
           </select>
         </div>
 
-        <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+        <div className="pt-2 border-t app-border flex items-center justify-between text-xs app-text-muted">
           <span>
             {t('matchingRecords')}:{' '}
-            <strong className="font-mono-tabular text-slate-900">
+            <strong className="font-mono-tabular app-text">
               {filteredAndSorted.length.toLocaleString()}
             </strong>
           </span>
@@ -459,14 +459,14 @@ export function CitizenRegistryView({
       </div>
 
       {/* Citizens Table */}
-      <div className="bg-white border border-slate-200 rounded-lg overflow-hidden">
+      <div className="app-card rounded-lg overflow-hidden">
         {paginatedRows.length === 0 ? (
           <div className="p-12 text-center space-y-3">
-            <p className="text-sm text-slate-500">{t('noRecordsFound')}</p>
+            <p className="text-sm app-text-subtle">{t('noRecordsFound')}</p>
             <button
               type="button"
               onClick={clearFilters}
-              className="text-xs font-medium text-blue-700 hover:underline"
+              className="text-xs font-medium app-accent-text hover:underline"
             >
               {t('clearFilters')}
             </button>
@@ -474,7 +474,7 @@ export function CitizenRegistryView({
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-sm text-left">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600">
+              <thead className="app-table-head text-xs font-semibold">
                 <tr>
                   <th className="px-4 py-3">{t('fullName')}</th>
                   <th className="px-4 py-3">{t('nicNumber')}</th>
@@ -487,47 +487,47 @@ export function CitizenRegistryView({
                   <th className="px-4 py-3 text-right">{t('actions')}</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[var(--theme-border)]">
                 {paginatedRows.map((c) => {
                   const age = calculateAge(c.dateOfBirth, referenceDate);
                   return (
-                    <tr key={c.id} className="hover:bg-slate-50/70">
+                    <tr key={c.id} className="app-table-row transition-colors">
                       <td className="px-4 py-2.5">
-                        <div className="font-medium text-slate-900">{c.fullName}</div>
+                        <div className="font-medium app-text">{c.fullName}</div>
                         {c.welfareRegNumber && (
-                          <div className="text-[11px] text-slate-500 font-mono-tabular">
+                          <div className="text-[11px] app-text-subtle font-mono-tabular">
                             Welfare: {c.welfareRegNumber}
                           </div>
                         )}
                       </td>
-                      <td className="px-4 py-2.5 font-mono-tabular text-xs text-slate-700">
+                      <td className="px-4 py-2.5 font-mono-tabular text-xs app-text-muted">
                         {c.nicNumber}
                       </td>
                       <td className="px-4 py-2.5 text-right font-mono-tabular">
-                        <span className="font-semibold text-slate-900">{age}</span>
-                        <span className="text-[11px] text-slate-400 ml-1">
+                        <span className="font-semibold app-text">{age}</span>
+                        <span className="text-[11px] app-text-subtle ml-1">
                           ({getAgeGroupLabel(age)})
                         </span>
                       </td>
-                      <td className="px-4 py-2.5 text-slate-700">{c.gender}</td>
-                      <td className="px-4 py-2.5 text-slate-700">{c.gnDivisionName}</td>
-                      <td className="px-4 py-2.5 font-mono-tabular text-xs text-slate-700">
+                      <td className="px-4 py-2.5 app-text-muted">{c.gender}</td>
+                      <td className="px-4 py-2.5 app-text-muted">{c.gnDivisionName}</td>
+                      <td className="px-4 py-2.5 font-mono-tabular text-xs app-text-muted">
                         {c.telephone}
                       </td>
-                      <td className="px-4 py-2.5 text-xs text-slate-700">
+                      <td className="px-4 py-2.5 text-xs app-text-muted">
                         {c.receivingAllowance ? (
                           <div>
-                            <div className="font-medium text-slate-900">
+                            <div className="font-medium app-text">
                               {c.paymentMethod}
                             </div>
-                            <div className="text-slate-500 truncate max-w-[160px]">
+                            <div className="app-text-subtle truncate max-w-[160px]">
                               {c.paymentMethod === 'Bank'
                                 ? `${c.bankName} (${c.bankBranch})`
                                 : c.postOfficeName}
                             </div>
                           </div>
                         ) : (
-                          <span className="text-slate-400">{t('no')}</span>
+                          <span className="app-text-subtle">{t('no')}</span>
                         )}
                       </td>
                       <td className="px-4 py-2.5 text-xs font-medium">
@@ -540,7 +540,7 @@ export function CitizenRegistryView({
                           <button
                             type="button"
                             onClick={() => setViewingCitizen(c)}
-                            className="p-1.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded"
+                            className="p-1.5 app-text-muted hover:app-accent-text hover:bg-[var(--theme-accent-soft)] rounded"
                             title={t('viewDetails')}
                           >
                             <Eye className="w-4 h-4" />
@@ -550,7 +550,7 @@ export function CitizenRegistryView({
                               <button
                                 type="button"
                                 onClick={() => onEditCitizen(c)}
-                                className="p-1.5 text-slate-600 hover:text-blue-700 hover:bg-blue-50 rounded"
+                                className="p-1.5 app-text-muted hover:app-accent-text hover:bg-[var(--theme-accent-soft)] rounded"
                                 title={t('edit')}
                               >
                                 <Edit3 className="w-4 h-4" />
@@ -558,7 +558,7 @@ export function CitizenRegistryView({
                               <button
                                 type="button"
                                 onClick={() => setDeletingCitizen(c)}
-                                className="p-1.5 text-slate-600 hover:text-red-700 hover:bg-red-50 rounded"
+                                className="p-1.5 app-text-muted hover:text-red-600 dark:hover:text-red-400 hover:bg-red-50 dark:hover:bg-red-950/50 rounded"
                                 title={t('delete')}
                               >
                                 <Trash2 className="w-4 h-4" />
@@ -577,7 +577,7 @@ export function CitizenRegistryView({
 
         {/* Pagination */}
         {totalPages > 1 && (
-          <div className="px-4 py-3 border-t border-slate-200 flex items-center justify-between text-xs text-slate-600">
+          <div className="px-4 py-3 border-t app-border flex items-center justify-between text-xs app-text-muted">
             <span className="font-mono-tabular">
               Showing {(currentPage - 1) * PAGE_SIZE + 1}–
               {Math.min(currentPage * PAGE_SIZE, filteredAndSorted.length)} of{' '}
@@ -588,7 +588,7 @@ export function CitizenRegistryView({
                 type="button"
                 disabled={currentPage <= 1}
                 onClick={() => setPage((p) => Math.max(1, p - 1))}
-                className="p-1.5 border border-slate-300 rounded hover:bg-slate-50 disabled:opacity-40"
+                className="p-1.5 border app-border rounded hover:bg-[var(--theme-surface-muted)] disabled:opacity-40"
                 aria-label="Previous page"
               >
                 <ChevronLeft className="w-4 h-4" />
@@ -597,7 +597,7 @@ export function CitizenRegistryView({
                 type="button"
                 disabled={currentPage >= totalPages}
                 onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
-                className="p-1.5 border border-slate-300 rounded hover:bg-slate-50 disabled:opacity-40"
+                className="p-1.5 border app-border rounded hover:bg-[var(--theme-surface-muted)] disabled:opacity-40"
                 aria-label="Next page"
               >
                 <ChevronRight className="w-4 h-4" />
@@ -610,17 +610,18 @@ export function CitizenRegistryView({
       {/* Citizen Detail Modal */}
       {viewingCitizen && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/60 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
-            <div className="px-6 py-4 border-b border-slate-200 flex items-center justify-between">
+          <div className="app-card rounded-lg w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+            <div className="app-crest-ribbon shrink-0" />
+            <div className="px-6 py-4 border-b app-border flex items-center justify-between">
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-bold app-text">
                   {viewingCitizen.fullName}
                 </h3>
-                <p className="text-xs text-slate-500 font-mono-tabular mt-0.5">
+                <p className="text-xs app-text-subtle font-mono-tabular mt-0.5">
                   NIC: {viewingCitizen.nicNumber} · Age:{' '}
                   {calculateAge(viewingCitizen.dateOfBirth, referenceDate)}{' '}
                   {t('yearsOld')} (
@@ -633,7 +634,7 @@ export function CitizenRegistryView({
               <button
                 type="button"
                 onClick={() => setViewingCitizen(null)}
-                className="p-1.5 text-slate-400 hover:text-slate-700 rounded"
+                className="p-1.5 app-text-subtle hover:opacity-80 rounded"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -642,65 +643,65 @@ export function CitizenRegistryView({
             <div className="p-6 overflow-y-auto space-y-5 text-sm">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <span className="text-xs text-slate-500 block">{t('dateOfBirth')}</span>
-                  <span className="font-mono-tabular font-medium text-slate-900">
+                  <span className="text-xs app-text-subtle block">{t('dateOfBirth')}</span>
+                  <span className="font-mono-tabular font-medium app-text">
                     {viewingCitizen.dateOfBirth}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-500 block">{t('gender')}</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-xs app-text-subtle block">{t('gender')}</span>
+                  <span className="font-medium app-text">
                     {viewingCitizen.gender}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-500 block">{t('telephone')}</span>
-                  <span className="font-mono-tabular font-medium text-slate-900">
+                  <span className="text-xs app-text-subtle block">{t('telephone')}</span>
+                  <span className="font-mono-tabular font-medium app-text">
                     {viewingCitizen.telephone}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-500 block">{t('gnDivision')}</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-xs app-text-subtle block">{t('gnDivision')}</span>
+                  <span className="font-medium app-text">
                     {viewingCitizen.gnDivisionName}
                   </span>
                 </div>
                 <div className="sm:col-span-2">
-                  <span className="text-xs text-slate-500 block">{t('address')}</span>
-                  <span className="font-medium text-slate-900">
+                  <span className="text-xs app-text-subtle block">{t('address')}</span>
+                  <span className="font-medium app-text">
                     {viewingCitizen.address}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-500 block">
+                  <span className="text-xs app-text-subtle block">
                     {t('welfareRegNumber')}
                   </span>
-                  <span className="font-mono-tabular font-medium text-slate-900">
+                  <span className="font-mono-tabular font-medium app-text">
                     {viewingCitizen.welfareRegNumber || '—'}
                   </span>
                 </div>
                 <div>
-                  <span className="text-xs text-slate-500 block">
+                  <span className="text-xs app-text-subtle block">
                     {t('isReceivingAllowance')}
                   </span>
-                  <span className="font-medium text-slate-900">
+                  <span className="font-medium app-text">
                     {viewingCitizen.receivingAllowance ? t('yes') : t('no')}
                   </span>
                 </div>
               </div>
 
               {viewingCitizen.receivingAllowance && (
-                <div className="pt-4 border-t border-slate-200 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="pt-4 border-t app-border grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <span className="text-xs text-slate-500 block">
+                    <span className="text-xs app-text-subtle block">
                       {t('paymentMethod')}
                     </span>
-                    <span className="font-medium text-slate-900">
+                    <span className="font-medium app-text">
                       {viewingCitizen.paymentMethod}
                     </span>
                   </div>
                   <div>
-                    <span className="text-xs text-slate-500 block">
+                    <span className="text-xs app-text-subtle block">
                       {t('allowanceStatus')}
                     </span>
                     <span
@@ -714,52 +715,52 @@ export function CitizenRegistryView({
                   {viewingCitizen.paymentMethod === 'Bank' ? (
                     <>
                       <div>
-                        <span className="text-xs text-slate-500 block">
+                        <span className="text-xs app-text-subtle block">
                           {t('bankName')}
                         </span>
-                        <span className="font-medium text-slate-900">
+                        <span className="font-medium app-text">
                           {viewingCitizen.bankName}
                         </span>
                       </div>
                       <div>
-                        <span className="text-xs text-slate-500 block">
+                        <span className="text-xs app-text-subtle block">
                           {t('bankBranch')}
                         </span>
-                        <span className="font-medium text-slate-900">
+                        <span className="font-medium app-text">
                           {viewingCitizen.bankBranch}
                         </span>
                       </div>
                       <div className="sm:col-span-2">
-                        <span className="text-xs text-slate-500 block">
+                        <span className="text-xs app-text-subtle block">
                           {t('bankAccountNumber')}
                         </span>
-                        <span className="font-mono-tabular font-medium text-slate-900">
+                        <span className="font-mono-tabular font-medium app-text">
                           {viewingCitizen.bankAccountNumber || '—'}
                         </span>
                       </div>
                     </>
                   ) : (
                     <div className="sm:col-span-2">
-                      <span className="text-xs text-slate-500 block">
+                      <span className="text-xs app-text-subtle block">
                         {t('postOfficeName')}
                       </span>
-                      <span className="font-medium text-slate-900">
+                      <span className="font-medium app-text">
                         {viewingCitizen.postOfficeName}
                       </span>
                     </div>
                   )}
                   {viewingCitizen.remarks && (
                     <div className="sm:col-span-2">
-                      <span className="text-xs text-slate-500 block">
+                      <span className="text-xs app-text-subtle block">
                         {t('remarks')}
                       </span>
-                      <span className="text-slate-700">{viewingCitizen.remarks}</span>
+                      <span className="app-text-muted">{viewingCitizen.remarks}</span>
                     </div>
                   )}
                 </div>
               )}
 
-              <div className="pt-4 border-t border-slate-100 text-xs text-slate-500 space-y-1">
+              <div className="pt-4 border-t app-border text-xs app-text-subtle space-y-1">
                 <div>
                   Created by {viewingCitizen.createdByName} on{' '}
                   <span className="font-mono-tabular">
@@ -775,7 +776,7 @@ export function CitizenRegistryView({
               </div>
             </div>
 
-            <div className="px-6 py-3.5 border-t border-slate-200 flex items-center justify-end gap-2">
+            <div className="px-6 py-3.5 border-t app-border flex items-center justify-end gap-2">
               {isAdmin && (
                 <button
                   type="button"
@@ -784,7 +785,7 @@ export function CitizenRegistryView({
                     setViewingCitizen(null);
                     onEditCitizen(target);
                   }}
-                  className="px-4 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+                  className="px-4 py-2 text-xs font-semibold app-btn-primary rounded-md"
                 >
                   {t('edit')}
                 </button>
@@ -792,7 +793,7 @@ export function CitizenRegistryView({
               <button
                 type="button"
                 onClick={() => setViewingCitizen(null)}
-                className="px-4 py-2 text-xs font-medium text-slate-700 bg-slate-100 hover:bg-slate-200 rounded-md"
+                className="px-4 py-2 text-xs font-medium app-text app-surface-muted hover:opacity-90 rounded-md"
               >
                 Close
               </button>
@@ -804,23 +805,23 @@ export function CitizenRegistryView({
       {/* Admin Delete Confirmation Dialog */}
       {deletingCitizen && isAdmin && (
         <div
-          className="fixed inset-0 z-50 bg-slate-900/50 flex items-center justify-center p-4"
+          className="fixed inset-0 z-50 bg-slate-950/60 flex items-center justify-center p-4"
           role="dialog"
           aria-modal="true"
         >
-          <div className="bg-white border border-slate-200 rounded-lg w-full max-w-md p-6 space-y-4">
+          <div className="app-card rounded-lg w-full max-w-md p-6 space-y-4">
             <div className="flex items-start gap-3">
-              <div className="p-2 bg-red-50 text-red-700 rounded-md shrink-0">
+              <div className="p-2 bg-red-50 dark:bg-red-950/50 text-red-700 dark:text-red-400 rounded-md shrink-0">
                 <AlertTriangle className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="text-base font-bold text-slate-900">
+                <h3 className="text-base font-bold app-text">
                   {t('confirmDeleteTitle')}
                 </h3>
-                <p className="text-sm text-slate-600 mt-1">
+                <p className="text-sm app-text-muted mt-1">
                   {t('confirmDeleteCitizenMsg')}
                 </p>
-                <div className="mt-2.5 text-xs font-medium text-slate-900 font-mono-tabular bg-slate-50 border border-slate-200 rounded p-2.5">
+                <div className="mt-2.5 text-xs font-medium app-text font-mono-tabular app-surface-muted border app-border rounded p-2.5">
                   {deletingCitizen.fullName} · NIC: {deletingCitizen.nicNumber}
                 </div>
               </div>
@@ -830,7 +831,7 @@ export function CitizenRegistryView({
                 type="button"
                 onClick={() => setDeletingCitizen(null)}
                 disabled={deleteLoading}
-                className="px-4 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-md"
+                className="px-4 py-2 text-xs font-medium app-text app-surface border app-border hover:bg-[var(--theme-surface-muted)] rounded-md"
               >
                 {t('cancel')}
               </button>

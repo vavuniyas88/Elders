@@ -271,8 +271,8 @@ export function ReportsView({
     <div className="space-y-6">
       <div className="no-print flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">{t('reportsTitle')}</h2>
-          <p className="text-sm text-slate-500 mt-0.5">
+          <h2 className="text-xl font-bold app-text">{t('reportsTitle')}</h2>
+          <p className="text-sm app-text-subtle mt-0.5">
             Generate official registers and statistical reports in Excel, PDF, or Print format
           </p>
         </div>
@@ -281,7 +281,7 @@ export function ReportsView({
           <button
             type="button"
             onClick={handleExcel}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-emerald-800 bg-emerald-50 border border-emerald-200 hover:bg-emerald-100 rounded-md"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-emerald-800 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-900/60 hover:bg-emerald-100 dark:hover:bg-emerald-900/50 rounded-md"
           >
             <FileSpreadsheet className="w-4 h-4" />
             {t('exportExcel')}
@@ -289,7 +289,7 @@ export function ReportsView({
           <button
             type="button"
             onClick={handlePdf}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold text-white bg-blue-700 hover:bg-blue-800 rounded-md"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-semibold app-btn-primary rounded-md"
           >
             <FileText className="w-4 h-4" />
             {t('downloadPdf')}
@@ -297,7 +297,7 @@ export function ReportsView({
           <button
             type="button"
             onClick={() => window.print()}
-            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium text-slate-700 bg-white border border-slate-300 hover:bg-slate-50 rounded-md"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 text-xs font-medium app-text app-surface border app-border hover:bg-[var(--theme-surface-muted)] rounded-md"
           >
             <Printer className="w-4 h-4" />
             {t('printReport')}
@@ -306,16 +306,16 @@ export function ReportsView({
       </div>
 
       {/* Report Selector & Filters */}
-      <div className="no-print bg-white border border-slate-200 rounded-lg p-5 space-y-4">
+      <div className="no-print app-card rounded-lg p-5 space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           <div className="md:col-span-2">
-            <label className="block text-xs font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium app-text-muted mb-1">
               {t('selectReportType')}
             </label>
             <select
               value={selectedReport}
               onChange={(e) => setSelectedReport(e.target.value as ReportType)}
-              className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-3 py-2 text-sm app-input border rounded-md"
             >
               {REPORT_LIST.map((r) => (
                 <option key={r.id} value={r.id}>
@@ -326,13 +326,13 @@ export function ReportsView({
           </div>
 
           <div>
-            <label className="block text-xs font-medium text-slate-700 mb-1">
+            <label className="block text-xs font-medium app-text-muted mb-1">
               {t('filterDivision')}
             </label>
             <select
               value={selectedDivisionId}
               onChange={(e) => setSelectedDivisionId(e.target.value)}
-              className="w-full px-3 py-2 text-sm border border-slate-300 rounded-md bg-white focus:outline-none focus:ring-2 focus:ring-blue-600"
+              className="w-full px-3 py-2 text-sm app-input border rounded-md"
             >
               <option value="all">{t('allOption')} GN Divisions</option>
               {divisions.map((d) => (
@@ -345,25 +345,25 @@ export function ReportsView({
 
           <div className="grid grid-cols-2 gap-2">
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
+              <label className="block text-xs font-medium app-text-muted mb-1">
                 {t('dateFrom')}
               </label>
               <input
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full px-2.5 py-2 text-xs border border-slate-300 rounded-md font-mono-tabular"
+                className="w-full px-2.5 py-2 text-xs app-input border rounded-md font-mono-tabular"
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-slate-700 mb-1">
+              <label className="block text-xs font-medium app-text-muted mb-1">
                 {t('dateTo')}
               </label>
               <input
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full px-2.5 py-2 text-xs border border-slate-300 rounded-md font-mono-tabular"
+                className="w-full px-2.5 py-2 text-xs app-input border rounded-md font-mono-tabular"
               />
             </div>
           </div>
@@ -371,33 +371,34 @@ export function ReportsView({
       </div>
 
       {/* Printable Report Sheet */}
-      <div className="bg-white border border-slate-200 rounded-lg overflow-hidden print-full-width">
+      <div className="app-card rounded-lg overflow-hidden print-full-width">
+        <div className="app-crest-ribbon" />
         {/* Official Report Header (shown on screen & print) */}
-        <div className="px-6 py-5 border-b border-slate-200 bg-slate-50/70">
+        <div className="px-6 py-5 border-b app-border app-surface-muted">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div className="flex items-start gap-3.5">
               <img
                 src="/assets/aistudio/IMG-20261121-WA0000_9601a62d.jpg"
                 alt="Manthai West Divisional Secretariat Logo"
                 referrerPolicy="no-referrer"
-                className="w-12 h-12 rounded object-contain bg-white border border-slate-200 p-0.5 shrink-0"
+                className="w-12 h-12 rounded object-contain bg-white border app-border p-0.5 shrink-0"
               />
               <div>
-                <p className="text-xs font-bold text-blue-800 uppercase tracking-wide">
+                <p className="text-xs font-bold app-accent-text uppercase tracking-wide">
                   {t('appTitle')}
                 </p>
-                <p className="text-xs text-slate-500">{t('appSubtitle')}</p>
-                <h3 className="mt-1.5 text-lg font-bold text-slate-900">
+                <p className="text-xs app-text-subtle">{t('appSubtitle')}</p>
+                <h3 className="mt-1.5 text-lg font-bold app-text">
                   {reportMetaTitle}
                 </h3>
               </div>
             </div>
-            <div className="text-xs text-slate-600 space-y-0.5 sm:text-right font-mono-tabular">
+            <div className="text-xs app-text-muted space-y-0.5 sm:text-right font-mono-tabular">
               <div>
-                {t('generatedDate')}: <strong className="text-slate-900">{generatedDate}</strong>
+                {t('generatedDate')}: <strong className="app-text">{generatedDate}</strong>
               </div>
               <div>
-                {t('totalRecords')}: <strong className="text-slate-900">{rows.length}</strong>
+                {t('totalRecords')}: <strong className="app-text">{rows.length}</strong>
               </div>
               <div>GN Division: {divisionLabel}</div>
             </div>
@@ -405,13 +406,13 @@ export function ReportsView({
         </div>
 
         {rows.length === 0 ? (
-          <div className="p-10 text-center text-sm text-slate-500">
+          <div className="p-10 text-center text-sm app-text-subtle">
             No records match the selected report filters.
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-xs sm:text-sm text-left">
-              <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-600">
+              <thead className="app-table-head text-xs font-semibold">
                 <tr>
                   <th className="px-3 py-2.5 w-10">#</th>
                   {columns.map((col) => (
@@ -421,16 +422,16 @@ export function ReportsView({
                   ))}
                 </tr>
               </thead>
-              <tbody className="divide-y divide-slate-100">
+              <tbody className="divide-y divide-[var(--theme-border)]">
                 {rows.map((row, idx) => (
-                  <tr key={idx} className="hover:bg-slate-50/60">
-                    <td className="px-3 py-2 font-mono-tabular text-xs text-slate-400">
+                  <tr key={idx} className="app-table-row transition-colors">
+                    <td className="px-3 py-2 font-mono-tabular text-xs app-text-subtle">
                       {idx + 1}
                     </td>
                     {columns.map((col) => (
                       <td
                         key={col.key}
-                        className="px-3 py-2 text-slate-800 font-mono-tabular"
+                        className="px-3 py-2 app-text font-mono-tabular"
                       >
                         {String(row[col.key] ?? '')}
                       </td>

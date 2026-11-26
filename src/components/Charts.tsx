@@ -27,14 +27,14 @@ export function DonutChart({
   let accumulated = 0;
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-5 flex flex-col justify-between">
+    <div className="app-card rounded-lg p-5 flex flex-col justify-between">
       <div>
-        <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
-        {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+        <h3 className="text-sm font-semibold app-text">{title}</h3>
+        {subtitle && <p className="text-xs app-text-subtle mt-0.5">{subtitle}</p>}
       </div>
 
       {total === 0 ? (
-        <div className="py-12 text-center text-sm text-slate-400">
+        <div className="py-12 text-center text-sm app-text-subtle">
           No recorded data available yet
         </div>
       ) : (
@@ -46,7 +46,7 @@ export function DonutChart({
                 cy="90"
                 r={radius}
                 fill="none"
-                stroke="#f1f5f9"
+                stroke="var(--theme-surface-muted)"
                 strokeWidth={strokeWidth}
               />
               {slices.map((slice, idx) => {
@@ -75,10 +75,12 @@ export function DonutChart({
               })}
             </svg>
             <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none text-center px-2">
-              <span className="text-2xl font-bold text-slate-900 font-mono-tabular">
-                {hoveredIdx !== null ? slices[hoveredIdx].value.toLocaleString() : total.toLocaleString()}
+              <span className="text-2xl font-bold app-text font-mono-tabular">
+                {hoveredIdx !== null
+                  ? slices[hoveredIdx].value.toLocaleString()
+                  : total.toLocaleString()}
               </span>
-              <span className="text-[11px] text-slate-500 leading-tight max-w-[90px] truncate">
+              <span className="text-[11px] app-text-subtle leading-tight max-w-[90px] truncate">
                 {hoveredIdx !== null ? slices[hoveredIdx].label : centerLabel || 'Total'}
               </span>
             </div>
@@ -93,7 +95,7 @@ export function DonutChart({
                   onMouseEnter={() => setHoveredIdx(idx)}
                   onMouseLeave={() => setHoveredIdx(null)}
                   className={`flex items-center justify-between gap-3 px-2.5 py-1.5 rounded-md transition-colors cursor-default ${
-                    hoveredIdx === idx ? 'bg-slate-50' : ''
+                    hoveredIdx === idx ? 'app-surface-muted' : ''
                   }`}
                 >
                   <div className="flex items-center gap-2.5 min-w-0">
@@ -101,13 +103,13 @@ export function DonutChart({
                       className="w-3 h-3 rounded-sm shrink-0"
                       style={{ backgroundColor: slice.color }}
                     />
-                    <span className="text-sm text-slate-700 truncate">{slice.label}</span>
+                    <span className="text-sm app-text-muted truncate">{slice.label}</span>
                   </div>
                   <div className="flex items-center gap-2 shrink-0 font-mono-tabular text-sm">
-                    <span className="font-semibold text-slate-900">
+                    <span className="font-semibold app-text">
                       {slice.value.toLocaleString()}
                     </span>
-                    <span className="text-xs text-slate-500 w-12 text-right">
+                    <span className="text-xs app-text-subtle w-12 text-right">
                       {pct}%
                     </span>
                   </div>
@@ -133,7 +135,7 @@ export function HorizontalComparisonChart({
   subtitle,
   primaryLabel,
   secondaryLabel,
-  primaryColor = '#1d4ed8',
+  primaryColor = 'var(--theme-accent)',
   secondaryColor = '#94a3b8',
   data,
   maxItems = 12,
@@ -154,13 +156,13 @@ export function HorizontalComparisonChart({
   );
 
   return (
-    <div className="bg-white border border-slate-200 rounded-lg p-5">
+    <div className="app-card rounded-lg p-5">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
-          <h3 className="text-sm font-semibold text-slate-900">{title}</h3>
-          {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+          <h3 className="text-sm font-semibold app-text">{title}</h3>
+          {subtitle && <p className="text-xs app-text-subtle mt-0.5">{subtitle}</p>}
         </div>
-        <div className="flex items-center gap-4 text-xs text-slate-600">
+        <div className="flex items-center gap-4 text-xs app-text-muted">
           <span className="inline-flex items-center gap-1.5">
             <span
               className="w-2.5 h-2.5 rounded-sm"
@@ -181,7 +183,7 @@ export function HorizontalComparisonChart({
       </div>
 
       {displayData.length === 0 ? (
-        <div className="py-10 text-center text-sm text-slate-400">
+        <div className="py-10 text-center text-sm app-text-subtle">
           No division statistics available yet
         </div>
       ) : (
@@ -194,27 +196,27 @@ export function HorizontalComparisonChart({
             return (
               <div key={row.label} className="space-y-1">
                 <div className="flex items-center justify-between text-xs gap-3">
-                  <span className="font-medium text-slate-700 truncate">
+                  <span className="font-medium app-text-muted truncate">
                     {row.label}
                     {row.subLabel ? (
-                      <span className="text-slate-400 font-normal ml-1.5">
+                      <span className="app-text-subtle font-normal ml-1.5">
                         ({row.subLabel})
                       </span>
                     ) : null}
                   </span>
-                  <span className="font-mono-tabular text-slate-700 shrink-0">
+                  <span className="font-mono-tabular app-text-muted shrink-0">
                     {row.secondary !== undefined ? (
                       <>
-                        <span className="font-semibold text-slate-900">{row.primary}</span>
-                        <span className="text-slate-400"> / </span>
+                        <span className="font-semibold app-text">{row.primary}</span>
+                        <span className="app-text-subtle"> / </span>
                         <span>{totalRow}</span>
                       </>
                     ) : (
-                      <span className="font-semibold text-slate-900">{row.primary}</span>
+                      <span className="font-semibold app-text">{row.primary}</span>
                     )}
                   </span>
                 </div>
-                <div className="w-full h-2.5 bg-slate-100 rounded-sm overflow-hidden flex">
+                <div className="w-full h-2.5 app-surface-muted rounded-sm overflow-hidden flex">
                   <div
                     className="h-full transition-all duration-200"
                     style={{
