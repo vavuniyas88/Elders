@@ -343,10 +343,10 @@ function AppShell() {
                 className="w-10 h-10 rounded object-contain bg-white p-0.5 shrink-0 shadow-xs"
               />
               <div className="min-w-0">
-                <div className="text-sm font-bold text-white truncate">
+                <div className="text-xs font-bold text-white leading-snug">
                   {t('shortBrand')}
                 </div>
-                <div className="text-[11px] text-[var(--theme-sidebar-muted)] truncate">
+                <div className="text-[11px] text-[var(--theme-sidebar-muted)] truncate mt-0.5">
                   {t('appSubtitle')}
                 </div>
               </div>

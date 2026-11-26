@@ -1,8 +1,8 @@
 export const translations = {
   en: {
-    appTitle: 'Manthai West Divisional Secretariat',
+    appTitle: 'Divisional Secretariat, Manthai West',
     appSubtitle: 'Elderly Citizen Management System',
-    shortBrand: 'Manthai West Secretariat',
+    shortBrand: 'Divisional Secretariat, Manthai West',
     // Navigation
     navDashboard: 'Dashboard',
     navCitizens: 'Elderly Registry',
@@ -161,9 +161,9 @@ export const translations = {
     readOnlyOfficerNotice: 'Officer Mode: View and Add permitted. Contact Administrator to edit or delete records.',
   },
   ta: {
-    appTitle: 'மாந்தை மேற்கு பிரதேச செயலகம்',
+    appTitle: 'பிரதேச செயலகம், மாந்தை மேற்கு',
     appSubtitle: 'முதியோர் நலன் முகாமைத்துவ அமைப்பு',
-    shortBrand: 'மாந்தை மேற்கு செயலகம்',
+    shortBrand: 'பிரதேச செயலகம், மாந்தை மேற்கு',
     // Navigation
     navDashboard: 'முகப்புப் பலகை',
     navCitizens: 'முதியோர் பதிவேடு',

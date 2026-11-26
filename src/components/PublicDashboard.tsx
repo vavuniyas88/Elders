@@ -133,15 +133,15 @@ export function PublicDashboard({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <a
             href="#overview"
-            className="flex items-center gap-2.5 text-sm sm:text-base font-bold tracking-tight app-text whitespace-nowrap shrink-0 min-w-0"
+            className="flex items-center gap-2.5 text-sm sm:text-base font-bold tracking-tight app-text whitespace-nowrap min-w-0"
           >
             <img
               src="/assets/aistudio/IMG-20261121-WA0000_9601a62d.jpg"
-              alt="Manthai West Divisional Secretariat Logo"
+              alt="Divisional Secretariat, Manthai West Logo"
               referrerPolicy="no-referrer"
               className="w-9 h-9 rounded object-contain bg-white border app-border p-0.5 shrink-0"
             />
-            <span className="truncate max-w-[140px] sm:max-w-none">{t('shortBrand')}</span>
+            <span className="truncate">{t('shortBrand')}</span>
           </a>
 
           <nav className="hidden xl:flex items-center gap-5 text-sm font-medium app-text-muted">
