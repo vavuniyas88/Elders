@@ -5,14 +5,12 @@ import {
   Landmark,
   LockKeyhole,
   Mail,
-  ShieldCheck,
   Users,
   Wallet,
 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 import { db } from '../firebase';
 import type { PublicStatsSummary } from '../types';
-import { formatTimestamp } from '../utils/calculations';
 import { DonutChart, HorizontalComparisonChart } from './Charts';
 import { ThemeSwitcher } from './ThemeSwitcher';
 
@@ -130,12 +128,12 @@ export function PublicDashboard({
 
   return (
     <div className="min-h-screen app-canvas">
-      {/* Top Bar Contract: [Brand] — [4 nav links] — [1 primary CTA] */}
+      {/* Top Bar: Brand — Nav Links — Theme, Language & Primary CTA */}
       <header className="app-surface border-b app-border sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
           <a
             href="#overview"
-            className="flex items-center gap-2.5 text-base sm:text-lg font-bold tracking-tight app-text whitespace-nowrap shrink-0"
+            className="flex items-center gap-2.5 text-sm sm:text-base font-bold tracking-tight app-text whitespace-nowrap shrink-0 min-w-0"
           >
             <img
               src="/assets/aistudio/IMG-20261121-WA0000_9601a62d.jpg"
@@ -143,10 +141,10 @@ export function PublicDashboard({
               referrerPolicy="no-referrer"
               className="w-9 h-9 rounded object-contain bg-white border app-border p-0.5 shrink-0"
             />
-            <span>{t('shortBrand')}</span>
+            <span className="truncate max-w-[140px] sm:max-w-none">{t('shortBrand')}</span>
           </a>
 
-          <nav className="hidden md:flex items-center gap-6 text-sm font-medium app-text-muted">
+          <nav className="hidden xl:flex items-center gap-5 text-sm font-medium app-text-muted">
             <a
               href="#overview"
               className="hover:app-accent-text transition-colors whitespace-nowrap shrink-0"
@@ -173,12 +171,44 @@ export function PublicDashboard({
             </a>
           </nav>
 
-          <div className="shrink-0">
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <ThemeSwitcher />
+
+            <div
+              className="inline-flex items-center p-0.5 app-surface-muted rounded-md border app-border"
+              role="group"
+              aria-label="Language Selector"
+            >
+              <button
+                type="button"
+                onClick={() => setLang('en')}
+                className={`px-2 sm:px-2.5 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                  lang === 'en'
+                    ? 'app-surface app-text shadow-xs'
+                    : 'app-text-muted'
+                }`}
+              >
+                <span className="hidden sm:inline">English</span>
+                <span className="sm:hidden">EN</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setLang('ta')}
+                className={`px-2 sm:px-2.5 py-1 text-xs font-medium rounded transition-colors whitespace-nowrap ${
+                  lang === 'ta'
+                    ? 'app-surface app-text shadow-xs'
+                    : 'app-text-muted'
+                }`}
+              >
+                தமிழ்
+              </button>
+            </div>
+
             {isStaffSignedIn && onReturnToWorkspace ? (
               <button
                 type="button"
                 onClick={onReturnToWorkspace}
-                className="px-4 py-2 text-sm font-medium app-btn-primary rounded-md transition-colors whitespace-nowrap shrink-0"
+                className="px-3.5 py-1.5 text-xs sm:text-sm font-medium app-btn-primary rounded-md transition-colors whitespace-nowrap shrink-0"
               >
                 {t('navDashboard')}
               </button>
@@ -186,82 +216,27 @@ export function PublicDashboard({
               <button
                 type="button"
                 onClick={onGoToLogin}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium app-btn-primary rounded-md transition-colors whitespace-nowrap shrink-0"
+                className="inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 text-xs sm:text-sm font-medium app-btn-primary rounded-md transition-colors whitespace-nowrap shrink-0"
               >
-                <LockKeyhole className="w-4 h-4" />
-                {t('staffSignIn')}
+                <LockKeyhole className="w-3.5 h-3.5 sm:w-4 sm:h-4 shrink-0" />
+                <span>{t('staffSignIn')}</span>
               </button>
             )}
           </div>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
-        {/* Hero / Official Portal Intro + Workspace Toolbar */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-6">
+        {/* Clean Institutional Title Banner */}
         <section
           id="overview"
           className="app-card rounded-lg overflow-hidden"
         >
           <div className="app-crest-ribbon" />
-          <div className="p-6 sm:p-8">
-            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-              <div className="space-y-2 max-w-3xl">
-                <div className="flex items-center gap-2 text-xs font-semibold app-accent-text">
-                  <span>{t('appTitle')}</span>
-                  <span aria-hidden="true">·</span>
-                  <span>{t('appSubtitle')}</span>
-                </div>
-                <h1 className="text-2xl sm:text-3xl font-bold app-text tracking-tight text-balance">
-                  {t('publicPortalTitle')}
-                </h1>
-                <p className="text-sm sm:text-base app-text-muted leading-relaxed">
-                  {t('publicPortalSubtitle')}
-                </p>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-3 shrink-0">
-                <ThemeSwitcher />
-                <div
-                  className="inline-flex items-center p-1 app-surface-muted rounded-md border app-border"
-                  role="group"
-                  aria-label="Language Selector"
-                >
-                  <button
-                    type="button"
-                    onClick={() => setLang('en')}
-                    className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
-                      lang === 'en'
-                        ? 'app-surface app-text shadow-xs'
-                        : 'app-text-muted'
-                    }`}
-                  >
-                    English
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setLang('ta')}
-                    className={`px-3 py-1.5 text-xs font-medium rounded transition-colors whitespace-nowrap ${
-                      lang === 'ta'
-                        ? 'app-surface app-text shadow-xs'
-                        : 'app-text-muted'
-                    }`}
-                  >
-                    தமிழ்
-                  </button>
-                </div>
-                {stats.statsDate && (
-                  <div className="text-xs app-text-subtle font-mono-tabular">
-                    {t('lastSyncedDate')}: {stats.statsDate}
-                    {stats.updatedAt ? ` · ${formatTimestamp(stats.updatedAt, true)}` : ''}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            <div className="mt-5 pt-4 border-t app-border flex items-start gap-2.5 text-xs app-text-muted">
-              <ShieldCheck className="w-4 h-4 app-accent-text shrink-0 mt-0.5" />
-              <span>{t('publicPrivacyNotice')}</span>
-            </div>
+          <div className="px-6 py-5 sm:px-8 sm:py-6 flex items-center justify-between gap-4">
+            <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold app-text tracking-tight text-balance">
+              {t('appSubtitle')}
+            </h1>
           </div>
         </section>
 
